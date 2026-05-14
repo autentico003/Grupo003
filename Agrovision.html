@@ -1,0 +1,2377 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#1B5E20">
+    <title>Agrovision - Agricultura Inteligente</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --primary: #1B5E20;
+            --primary-light: #E8F5E9;
+            --primary-mid: #2E7D32;
+            --primary-dark: #0D3B10;
+            --danger: #C62828;
+            --warning: #E65100;
+            --info: #1565C0;
+            --text: #1a1a2e;
+            --text-light: #6b7280;
+            --bg: #f8fafc;
+            --white: #FFFFFF;
+            --shadow: 0 4px 20px rgba(0,0,0,0.08);
+            --shadow-lg: 0 8px 30px rgba(0,0,0,0.12);
+            --radius: 16px;
+            --radius-sm: 12px;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ===== PANTALLA ===== */
+        .screen {
+            display: none;
+            min-height: 100vh;
+            padding-bottom: 90px;
+            animation: fadeIn 0.35s ease;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow);
+        }
+
+        .header h1 {
+            font-size: 1.15em;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+        }
+
+        .header .back {
+            font-size: 1.4em;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+
+        .header .back:active {
+            background: rgba(255,255,255,0.15);
+        }
+
+        .header .lang-btn {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .header .lang-btn .arrow {
+            font-size: 0.7em;
+        }
+
+        /* ===== BOTONES ===== */
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 16px 20px;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 1em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .btn:active {
+            transform: scale(0.97);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-mid) 0%, var(--primary) 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(27, 94, 32, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary-mid);
+            color: var(--primary);
+        }
+
+        /* ===== CARDS ===== */
+        .card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin: 12px 16px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(0,0,0,0.04);
+        }
+
+        /* ===== HOME FEATURE CARDS CON IMAGENES DE FONDO ===== */
+        .home-feature-card {
+            position: relative;
+            border-radius: var(--radius);
+            margin: 12px 16px;
+            height: 160px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: var(--shadow);
+        }
+
+        .home-feature-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .home-feature-card:active {
+            transform: scale(0.98);
+        }
+
+        .home-feature-card .bg-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+        }
+
+        .home-feature-card .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(27,94,32,0.85) 0%, rgba(13,59,16,0.9) 100%);
+            z-index: 2;
+        }
+
+        .home-feature-card .content {
+            position: relative;
+            z-index: 3;
+            padding: 24px;
+            color: white;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .home-feature-card .content h3 {
+            font-size: 1.2em;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .home-feature-card .content p {
+            font-size: 0.9em;
+            opacity: 0.9;
+            line-height: 1.4;
+        }
+
+        .home-feature-card .content .arrow {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.8em;
+            opacity: 0.7;
+        }
+
+        /* ===== UPLOAD AREA ===== */
+        .upload-area {
+            border: 2px solid #e5e7eb;
+            border-radius: var(--radius);
+            padding: 50px 24px;
+            text-align: center;
+            margin: 16px;
+            background: var(--white);
+            cursor: pointer;
+            transition: all 0.25s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .upload-area::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--primary-light);
+            opacity: 0;
+            transition: opacity 0.25s ease;
+            z-index: 0;
+        }
+
+        .upload-area:hover {
+            border-color: var(--primary-mid);
+            box-shadow: 0 4px 15px rgba(46, 125, 50, 0.15);
+        }
+
+        .upload-area:hover::before {
+            opacity: 1;
+        }
+
+        .upload-area:active {
+            transform: scale(0.98);
+        }
+
+        .upload-area > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .upload-area .upload-icon {
+            width: 72px;
+            height: 72px;
+            background: var(--primary-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            transition: all 0.25s ease;
+        }
+
+        .upload-area:hover .upload-icon {
+            background: var(--primary);
+            transform: scale(1.05);
+        }
+
+        .upload-area:hover .upload-icon img {
+            filter: brightness(0) invert(1);
+        }
+
+        .upload-area .upload-icon img {
+            width: 32px;
+            height: 32px;
+            transition: filter 0.25s ease;
+        }
+
+        .upload-area .upload-title {
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 4px;
+            font-size: 1.05em;
+        }
+
+        .upload-area .upload-subtitle {
+            color: var(--text-light);
+            font-size: 0.9em;
+        }
+
+        /* ===== FORMULARIOS ===== */
+        .input-group {
+            margin: 14px 0;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: var(--text);
+            font-size: 0.9em;
+        }
+
+        .input-group input,
+        .input-group select,
+        .input-group textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: var(--radius-sm);
+            font-size: 1em;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+            background: var(--white);
+        }
+
+        .input-group input:focus,
+        .input-group select:focus,
+        .input-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-mid);
+            box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
+        }
+
+        .input-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        /* ===== CROP ITEMS (para clima) ===== */
+        .crop-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 16px;
+        }
+
+        .crop-item {
+            background: var(--white);
+            border: 2px solid #e5e7eb;
+            border-radius: var(--radius);
+            padding: 16px 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .crop-item:hover,
+        .crop-item.selected {
+            border-color: var(--primary-mid);
+            background: var(--primary-light);
+            box-shadow: 0 4px 15px rgba(46, 125, 50, 0.15);
+        }
+
+        .crop-item.selected::after {
+            content: '✓';
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: var(--primary-mid);
+            color: white;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            font-size: 0.75em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        .crop-item img {
+            width: 56px;
+            height: 56px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-bottom: 10px;
+            border: 2px solid #e5e7eb;
+        }
+
+        .crop-item span {
+            font-weight: 700;
+            font-size: 0.95em;
+            display: block;
+        }
+
+        .crop-item .subtitle {
+            font-size: 0.75em;
+            color: var(--text-light);
+            margin-top: 2px;
+            font-weight: 400;
+        }
+
+        /* ===== RESULTADO ===== */
+        .result-image-wrap {
+            margin: 16px;
+            position: relative;
+        }
+
+        .result-image-wrap img {
+            width: 100%;
+            border-radius: var(--radius);
+            max-height: 280px;
+            object-fit: cover;
+            box-shadow: var(--shadow);
+        }
+
+        .result-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: var(--primary);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .result-badge img {
+            width: 14px;
+            height: 14px;
+            filter: brightness(0) invert(1);
+        }
+
+        .disease-header {
+            text-align: center;
+            padding: 8px 16px 16px;
+        }
+
+        .crop-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--primary-light);
+            color: var(--primary);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .crop-tag img {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .disease-name {
+            color: var(--danger);
+            font-size: 1.35em;
+            font-weight: 800;
+            margin: 4px 0;
+            letter-spacing: -0.5px;
+        }
+
+        .local-name {
+            color: var(--warning);
+            font-size: 1.05em;
+            font-weight: 700;
+        }
+
+        .scientific-name {
+            color: var(--text-light);
+            font-style: italic;
+            font-size: 0.9em;
+            margin-top: 2px;
+        }
+
+        .confidence-bar {
+            background: #E5E7EB;
+            border-radius: 10px;
+            height: 22px;
+            margin: 12px 16px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .confidence-fill {
+            background: linear-gradient(90deg, var(--danger), var(--warning), var(--primary-mid));
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.8s ease;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10px;
+            color: white;
+            font-size: 0.8em;
+            font-weight: 700;
+            min-width: 50px;
+        }
+
+        .alert-box {
+            padding: 14px 16px;
+            margin: 12px 16px;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .alert-box .icon-wrap {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .alert-box .icon-wrap img {
+            width: 18px;
+            height: 18px;
+        }
+
+        .alert-box.high {
+            background: #FEF2F2;
+            border-left: 4px solid var(--danger);
+        }
+
+        .alert-box.high .icon-wrap {
+            background: #FECACA;
+        }
+
+        .alert-box.medium {
+            background: #FFF7ED;
+            border-left: 4px solid var(--warning);
+        }
+
+        .alert-box.medium .icon-wrap {
+            background: #FED7AA;
+        }
+
+        .alert-box.low {
+            background: #F0FDF4;
+            border-left: 4px solid var(--primary-mid);
+        }
+
+        .alert-box.low .icon-wrap {
+            background: #BBF7D0;
+        }
+
+        .alert-box strong {
+            display: block;
+            margin-bottom: 2px;
+            font-weight: 700;
+        }
+
+        /* ===== BOTON DE VOZ ===== */
+        .voice-btn {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            border: none;
+            background: linear-gradient(135deg, var(--primary-mid) 0%, var(--primary) 100%);
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(27, 94, 32, 0.35);
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .voice-btn:active {
+            transform: scale(0.92);
+        }
+
+        .voice-btn.speaking {
+            animation: voicePulse 1.2s ease infinite;
+        }
+
+        @keyframes voicePulse {
+            0%, 100% { box-shadow: 0 4px 15px rgba(27, 94, 32, 0.35); }
+            50% { box-shadow: 0 4px 25px rgba(27, 94, 32, 0.6), 0 0 0 8px rgba(27, 94, 32, 0.1); }
+        }
+
+        .voice-btn img {
+            width: 26px;
+            height: 26px;
+            filter: brightness(0) invert(1);
+        }
+
+        .voice-section {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin: 16px;
+            padding: 14px 16px;
+            background: var(--primary-light);
+            border-radius: var(--radius);
+            border: 1px solid rgba(46, 125, 50, 0.15);
+        }
+
+        .voice-section p {
+            flex: 1;
+            font-size: 0.9em;
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .voice-section p span {
+            color: var(--text-light);
+            font-size: 0.85em;
+        }
+
+        /* ===== TRATAMIENTO ===== */
+        .treatment-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .treatment-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid #f3f4f6;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 0.95em;
+        }
+
+        .treatment-list li:last-child {
+            border-bottom: none;
+        }
+
+        .treatment-list li .bullet {
+            width: 8px;
+            height: 8px;
+            background: var(--primary-mid);
+            border-radius: 50%;
+            margin-top: 8px;
+            flex-shrink: 0;
+        }
+
+        .price-tag {
+            background: linear-gradient(135deg, var(--primary-light) 0%, #C8E6C9 100%);
+            color: var(--primary);
+            padding: 10px 18px;
+            border-radius: 24px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin: 8px 0;
+            font-size: 0.95em;
+        }
+
+        .price-tag img {
+            width: 16px;
+            height: 16px;
+        }
+
+        .where-buy {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            margin-top: 10px;
+            padding: 10px;
+            background: #FEF3C7;
+            border-radius: var(--radius-sm);
+        }
+
+        .where-buy img {
+            width: 18px;
+            height: 18px;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .where-buy div {
+            font-size: 0.9em;
+        }
+
+        .where-buy .label {
+            color: var(--text-light);
+            font-size: 0.8em;
+        }
+
+        .where-buy .value {
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        /* ===== CLIMA ===== */
+        .weather-card {
+            background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
+            color: white;
+            border-radius: var(--radius);
+            padding: 24px;
+            margin: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .weather-card::before {
+            content: '';
+            position: absolute;
+            top: -40px;
+            right: -40px;
+            width: 150px;
+            height: 150px;
+            background: rgba(255,255,255,0.06);
+            border-radius: 50%;
+        }
+
+        .weather-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .weather-location {
+            font-size: 0.9em;
+            opacity: 0.9;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .weather-location img {
+            width: 14px;
+            height: 14px;
+            filter: brightness(0) invert(1);
+        }
+
+        .weather-update {
+            font-size: 0.75em;
+            opacity: 0.7;
+        }
+
+        .weather-main {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .weather-main img {
+            width: 64px;
+            height: 64px;
+        }
+
+        .weather-temp {
+            font-size: 3em;
+            font-weight: 200;
+            line-height: 1;
+        }
+
+        .weather-desc {
+            font-size: 1em;
+            opacity: 0.9;
+        }
+
+        .weather-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .stat-item {
+            background: rgba(255,255,255,0.12);
+            padding: 14px;
+            border-radius: var(--radius-sm);
+            text-align: center;
+        }
+
+        .stat-item img {
+            width: 24px;
+            height: 24px;
+            margin-bottom: 6px;
+            filter: brightness(0) invert(1);
+        }
+
+        .stat-item .value {
+            font-size: 1.2em;
+            font-weight: 700;
+        }
+
+        .stat-item .label {
+            font-size: 0.75em;
+            opacity: 0.8;
+        }
+
+        /* ===== YIELD RESULT ===== */
+        .yield-result {
+            text-align: center;
+            padding: 24px;
+        }
+
+        .yield-result img {
+            width: 64px;
+            height: 64px;
+            margin-bottom: 12px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary-light);
+        }
+
+        .yield-value {
+            font-size: 2.2em;
+            font-weight: 800;
+            color: var(--primary);
+            letter-spacing: -1px;
+        }
+
+        .yield-label {
+            color: var(--text-light);
+            margin-bottom: 16px;
+        }
+
+        .yield-bar-wrap {
+            background: #E5E7EB;
+            border-radius: 10px;
+            height: 12px;
+            margin: 12px 0;
+            overflow: hidden;
+        }
+
+        .yield-bar {
+            background: linear-gradient(90deg, var(--primary-mid), var(--primary));
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.8s ease;
+        }
+
+        .yield-details {
+            font-size: 0.85em;
+            color: var(--text-light);
+            margin-top: 12px;
+            text-align: left;
+        }
+
+        .yield-details div {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 0;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        /* ===== BOTTOM NAV ===== */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--white);
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0 12px;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.06);
+            z-index: 100;
+            border-top: 1px solid #f3f4f6;
+        }
+
+        .nav-item {
+            text-align: center;
+            padding: 4px 16px;
+            cursor: pointer;
+            color: var(--text-light);
+            font-size: 0.7em;
+            font-weight: 600;
+            transition: color 0.2s;
+            border: none;
+            background: none;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .nav-item.active {
+            color: var(--primary);
+        }
+
+        .nav-item .icon-wrap {
+            width: 28px;
+            height: 28px;
+            margin: 0 auto 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-item .icon-wrap img {
+            width: 22px;
+            height: 22px;
+            opacity: 0.5;
+            transition: opacity 0.2s;
+        }
+
+        .nav-item.active .icon-wrap img {
+            opacity: 1;
+        }
+
+        /* ===== UTILIDADES ===== */
+        .section-title {
+            font-size: 0.8em;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-light);
+            margin: 20px 16px 10px;
+            font-weight: 700;
+        }
+
+        .tip-box {
+            background: #EFF6FF;
+            border-radius: var(--radius-sm);
+            padding: 14px 16px;
+            margin: 12px 16px;
+            font-size: 0.9em;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            border-left: 3px solid var(--info);
+        }
+
+        .tip-box img {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        /* ===== WELCOME SCREEN ===== */
+        .welcome-screen {
+            background: linear-gradient(180deg, var(--primary) 0%, var(--primary-dark) 60%, #1B5E20 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .welcome-screen::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 300px;
+            height: 300px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 50%;
+        }
+
+        .welcome-screen::after {
+            content: '';
+            position: absolute;
+            bottom: -80px;
+            left: -80px;
+            width: 250px;
+            height: 250px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 50%;
+        }
+
+        .welcome-logo {
+            width: 100px;
+            height: 100px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+            border: 3px solid rgba(255,255,255,0.2);
+        }
+
+        .welcome-logo img {
+            width: 56px;
+            height: 56px;
+            filter: brightness(0) invert(1);
+        }
+
+        .welcome-screen h1 {
+            font-size: 2.2em;
+            font-weight: 800;
+            margin-bottom: 8px;
+            letter-spacing: -1px;
+        }
+
+        .welcome-screen p {
+            opacity: 0.8;
+            margin-bottom: 32px;
+            font-size: 1em;
+            line-height: 1.6;
+            max-width: 280px;
+        }
+
+        .welcome-card {
+            background: var(--white);
+            color: var(--text);
+            border-radius: var(--radius);
+            padding: 24px;
+            width: 100%;
+            max-width: 360px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .lang-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin: 16px 0;
+        }
+
+        .lang-btn-welcome {
+            background: #f3f4f6;
+            border: 2px solid transparent;
+            color: var(--text);
+            padding: 10px 8px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-size: 0.85em;
+            font-weight: 600;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .lang-btn-welcome:hover {
+            border-color: var(--primary-mid);
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .lang-btn-welcome.active {
+            border-color: var(--primary-mid);
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .lang-btn-welcome.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            position: relative;
+        }
+
+        .lang-btn-welcome.disabled::after {
+            content: 'PRONTO';
+            position: absolute;
+            top: 2px;
+            right: 4px;
+            font-size: 0.55em;
+            background: var(--warning);
+            color: white;
+            padding: 1px 4px;
+            border-radius: 4px;
+            font-weight: 700;
+        }
+
+        /* ===== LOADING ===== */
+        .loading {
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        .spinner {
+            width: 56px;
+            height: 56px;
+            margin: 0 auto 20px;
+            position: relative;
+        }
+
+        .spinner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 4px solid #E5E7EB;
+            border-top-color: var(--primary-mid);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading p {
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 6px;
+        }
+
+        .loading .sub {
+            font-size: 0.85em;
+            color: var(--text-light);
+        }
+
+        /* ===== MODAL IDIOMA ===== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 200;
+            display: none;
+            align-items: flex-end;
+            justify-content: center;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-sheet {
+            background: var(--white);
+            width: 100%;
+            max-width: 480px;
+            border-radius: var(--radius) var(--radius) 0 0;
+            padding: 20px;
+            max-height: 70vh;
+            overflow-y: auto;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .modal-header h2 {
+            font-size: 1.2em;
+            font-weight: 700;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+            color: var(--text-light);
+            padding: 4px;
+        }
+
+        .lang-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 16px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-bottom: 4px;
+        }
+
+        .lang-option:hover {
+            background: var(--primary-light);
+        }
+
+        .lang-option .lang-name {
+            font-weight: 600;
+        }
+
+        .lang-option .lang-native {
+            font-size: 0.85em;
+            color: var(--text-light);
+        }
+
+        .lang-option .check {
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 1.1em;
+        }
+
+        .lang-option .badge-soon {
+            background: #FEF3C7;
+            color: var(--warning);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.7em;
+            font-weight: 700;
+        }
+
+        /* ===== GUIA - CULTIVOS ===== */
+        .guide-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
+            cursor: pointer;
+            transition: background 0.2s;
+            border-radius: var(--radius-sm);
+        }
+
+        .guide-item:hover {
+            background: var(--bg);
+        }
+
+        .guide-item img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: var(--radius-sm);
+        }
+
+        .guide-item .info {
+            flex: 1;
+        }
+
+        .guide-item .info .title {
+            font-weight: 700;
+            font-size: 1.05em;
+        }
+
+        .guide-item .info .desc {
+            color: var(--text-light);
+            font-size: 0.85em;
+            margin-top: 2px;
+        }
+
+        .guide-item .info .link {
+            color: var(--primary-mid);
+            font-size: 0.8em;
+            font-weight: 600;
+            margin-top: 4px;
+        }
+
+        .guide-item .arrow {
+            color: #d1d5db;
+            font-size: 1.2em;
+        }
+
+        /* ===== PLAGA ITEM ===== */
+        .plaga-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 16px;
+            cursor: pointer;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .plaga-item:last-child {
+            border-bottom: none;
+        }
+
+        .plaga-item .plaga-name {
+            font-weight: 600;
+        }
+
+        .plaga-item .plaga-meta {
+            font-size: 0.8em;
+            margin-top: 2px;
+        }
+
+        .plaga-item .plaga-meta .crop {
+            color: var(--text-light);
+        }
+
+        .plaga-item .plaga-meta .risk {
+            font-weight: 600;
+        }
+
+        .plaga-item .plaga-meta .risk.high {
+            color: var(--danger);
+        }
+
+        .plaga-item .plaga-meta .risk.medium {
+            color: var(--warning);
+        }
+
+        .plaga-item .arrow {
+            color: #d1d5db;
+        }
+
+        /* ===== PREVIEW AREA ===== */
+        #preview-area {
+            margin: 16px;
+        }
+
+        #preview-area img {
+            width: 100%;
+            border-radius: var(--radius);
+            max-height: 300px;
+            object-fit: cover;
+            box-shadow: var(--shadow);
+        }
+
+        /* ===== HISTORIAL POR DIA ===== */
+        .history-day {
+            margin-bottom: 16px;
+        }
+
+        .history-date {
+            font-size: 0.75em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-light);
+            font-weight: 700;
+            margin: 16px 16px 8px;
+        }
+
+        .history-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 16px;
+            margin: 0 16px;
+            background: var(--white);
+            border-radius: var(--radius-sm);
+            margin-bottom: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .history-item:hover {
+            background: var(--bg);
+        }
+
+        .history-item .history-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .history-item .history-info img {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        .history-item .history-info .name {
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+
+        .history-item .history-info .time {
+            font-size: 0.8em;
+            color: var(--text-light);
+        }
+
+        .history-item .history-status {
+            font-size: 0.75em;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 12px;
+        }
+
+        .history-status.treated {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .history-status.progress {
+            background: #FFF7ED;
+            color: var(--warning);
+        }
+
+        .history-status.resolved {
+            background: #F0FDF4;
+            color: var(--primary-mid);
+        }
+
+        /* ===== TOAST / ALERT ===== */
+        .toast-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.4);
+            z-index: 300;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(2px);
+        }
+
+        .toast-overlay.active {
+            display: flex;
+        }
+
+        .toast-box {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 24px;
+            width: 85%;
+            max-width: 320px;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .toast-box .toast-icon {
+            width: 56px;
+            height: 56px;
+            background: #FEF3C7;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+        }
+
+        .toast-box .toast-icon img {
+            width: 28px;
+            height: 28px;
+        }
+
+        .toast-box h3 {
+            font-size: 1.1em;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .toast-box p {
+            color: var(--text-light);
+            font-size: 0.9em;
+            margin-bottom: 20px;
+        }
+
+        .toast-box .btn {
+            margin: 0;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (min-width: 480px) {
+            body {
+                max-width: 480px;
+                margin: 0 auto;
+                box-shadow: 0 0 40px rgba(0,0,0,0.1);
+            }
+        }
+    </style>
+<base target="_blank">
+</head>
+<body>
+
+<!-- TOAST: IDIOMA NO DISPONIBLE -->
+<div id="lang-toast" class="toast-overlay" onclick="closeLangToast(event)">
+    <div class="toast-box" onclick="event.stopPropagation()">
+        <div class="toast-icon">
+            <img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png" alt="">
+        </div>
+        <h3>Idioma en desarrollo</h3>
+        <p>Este idioma estara disponible proximamente. Por ahora, usa Espanol, Frances, Fang o Picchi.</p>
+        <button class="btn btn-primary" onclick="closeLangToast()">Entendido</button>
+    </div>
+</div>
+
+<!-- MODAL DE IDIOMA -->
+<div id="lang-modal" class="modal-overlay" onclick="closeLangModal(event)">
+    <div class="modal-sheet" onclick="event.stopPropagation()">
+        <div class="modal-header">
+            <h2>Seleccionar idioma</h2>
+            <button class="modal-close" onclick="closeLangModal()">&times;</button>
+        </div>
+        <div id="lang-list"></div>
+    </div>
+</div>
+
+<!-- PANTALLA 1: BIENVENIDA -->
+<div id="screen-welcome" class="screen active">
+    <div class="welcome-screen">
+        <div class="welcome-logo">
+            <img src="https://cdn-icons-png.flaticon.com/512/628/628283.png" alt="Agro">
+        </div>
+        <h1>Agro</h1>
+        <p>Tu asistente agricola inteligente para Guinea Ecuatorial</p>
+        <div class="welcome-card">
+            <div style="text-align: center; margin-bottom: 16px;">
+                <div style="font-weight: 700; font-size: 1.1em; margin-bottom: 4px;">Elige tu idioma</div>
+                <div style="font-size: 0.85em; color: var(--text-light);">Puedes cambiarlo despues</div>
+            </div>
+            <div class="lang-grid">
+                <button class="lang-btn-welcome active" data-lang="es" onclick="selectWelcomeLang(this)">Espanol</button>
+                <button class="lang-btn-welcome" data-lang="fr" onclick="selectWelcomeLang(this)">Francais</button>
+                <button class="lang-btn-welcome" data-lang="fang" onclick="selectWelcomeLang(this)">Fang</button>
+                <button class="lang-btn-welcome" data-lang="picchi" onclick="selectWelcomeLang(this)">Picchi</button>
+                <button class="lang-btn-welcome disabled" data-lang="bubi" onclick="showLangToast()">Bubi</button>
+                <button class="lang-btn-welcome disabled" data-lang="combe" onclick="showLangToast()">Combe</button>
+                <button class="lang-btn-welcome disabled" data-lang="fadambo" onclick="showLangToast()">Fadambo</button>
+                <button class="lang-btn-welcome disabled" data-lang="ndowe" onclick="showLangToast()">Ndowe</button>
+                <button class="lang-btn-welcome disabled" data-lang="bisio" onclick="showLangToast()">Bisio</button>
+            </div>
+            <button class="btn btn-primary" onclick="enterApp()" style="margin-top: 8px;">Comenzar</button>
+        </div>
+    </div>
+</div>
+
+<!-- PANTALLA 2: HOME -->
+<div id="screen-home" class="screen">
+    <div class="header">
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <img src="https://cdn-icons-png.flaticon.com/512/628/628283.png" alt="" style="width: 28px; height: 28px; filter: brightness(0) invert(1);">
+            <h1>Agro</h1>
+        </div>
+        <button class="lang-btn" onclick="openLangModal()">
+            <span id="current-lang-label">ES</span>
+            <span class="arrow">&#9662;</span>
+        </button>
+    </div>
+    <div style="padding: 20px 16px 12px;">
+        <h2 style="font-size: 1.25em; font-weight: 700; margin-bottom: 2px;">Bienvenido a Agro</h2>
+        <p style="color: var(--text-light); font-size: 0.95em;">Que necesitas hoy?</p>
+    </div>
+
+    <!-- FEATURE CARDS CON IMAGENES DE FONDO -->
+    <div class="home-feature-card" onclick="showScreen('screen-diagnose')">
+        <img class="bg-image" src="https://images.unsplash.com/photo-1549007994-cb92caebd54b?w=600&h=400&fit=crop" alt="Diagnostico">
+        <div class="overlay"></div>
+        <div class="content">
+            <h3>Diagnostico de Plagas</h3>
+            <p>Toma una foto de tu cultivo y descubre que le pasa</p>
+            <span class="arrow">&#8250;</span>
+        </div>
+    </div>
+
+    <div class="home-feature-card" onclick="showScreen('screen-climate')">
+        <img class="bg-image" src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600&h=400&fit=crop" alt="Clima">
+        <div class="overlay"></div>
+        <div class="content">
+            <h3>Clima y Rendimiento</h3>
+            <p>Prediccion de cosecha segun el clima y tu finca</p>
+            <span class="arrow">&#8250;</span>
+        </div>
+    </div>
+
+    <div class="home-feature-card" onclick="showScreen('screen-guide')">
+        <img class="bg-image" src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=600&h=400&fit=crop" alt="Guia">
+        <div class="overlay"></div>
+        <div class="content">
+            <h3>Guia de Cultivos</h3>
+            <p>Aprende sobre cacao, cafe, yuca y platano</p>
+            <span class="arrow">&#8250;</span>
+        </div>
+    </div>
+
+    <!-- HISTORIAL AGRUPADO POR DIA -->
+    <div class="section-title">Diagnosticos recientes</div>
+
+    <div class="history-day">
+        <div class="history-date">Hoy, 14 de mayo 2026</div>
+        <div class="history-item" onclick="showResultDemo()">
+            <div class="history-info">
+                <img src="https://images.unsplash.com/photo-1549007994-cb92caebd54b?w=100&h=100&fit=crop" alt="">
+                <div>
+                    <div class="name">Cacao - Monilia</div>
+                    <div class="time">14:30</div>
+                </div>
+            </div>
+            <span class="history-status treated">Tratado</span>
+        </div>
+        <div class="history-item" onclick="showResultDemo()">
+            <div class="history-info">
+                <img src="https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=100&h=100&fit=crop" alt="">
+                <div>
+                    <div class="name">Platano - Sigatoka</div>
+                    <div class="time">09:15</div>
+                </div>
+            </div>
+            <span class="history-status progress">En tratamiento</span>
+        </div>
+    </div>
+
+    <div class="history-day">
+        <div class="history-date">Ayer, 13 de mayo 2026</div>
+        <div class="history-item" onclick="showResultDemo()">
+            <div class="history-info">
+                <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefde?w=100&h=100&fit=crop" alt="">
+                <div>
+                    <div class="name">Cafe - Roya</div>
+                    <div class="time">16:45</div>
+                </div>
+            </div>
+            <span class="history-status resolved">Resuelto</span>
+        </div>
+    </div>
+
+    <div class="bottom-nav">
+        <button class="nav-item active" onclick="showScreen('screen-home')">
+            <div class="icon-wrap"><img src="https://cdn-icons-png.flaticon.com/512/1946/1946436.png" alt=""></div>Inicio
+        </button>
+        <button class="nav-item" onclick="showScreen('screen-diagnose')">
+            <div class="icon-wrap"><img src="https://cdn-icons-png.flaticon.com/512/2964/2964514.png" alt=""></div>Diagnosticar
+        </button>
+        <button class="nav-item" onclick="showScreen('screen-climate')">
+            <div class="icon-wrap"><img src="https://cdn-icons-png.flaticon.com/512/869/869869.png" alt=""></div>Clima
+        </button>
+        <button class="nav-item" onclick="showScreen('screen-guide')">
+            <div class="icon-wrap"><img src="https://cdn-icons-png.flaticon.com/512/3050/3050525.png" alt=""></div>Guia
+        </button>
+    </div>
+</div>
+
+<!-- PANTALLA 3: DIAGNOSTICO (SIN SELECCION DE CULTIVOS) -->
+<div id="screen-diagnose" class="screen">
+    <div class="header">
+        <span class="back" onclick="showScreen('screen-home')">&#8592;</span>
+        <h1>Diagnostico de Plagas</h1>
+        <button class="lang-btn" onclick="openLangModal()">
+            <span id="current-lang-label-diag">ES</span><span class="arrow">&#9662;</span>
+        </button>
+    </div>
+
+    <div style="padding: 20px 16px 8px;">
+        <h2 style="font-size: 1.15em; font-weight: 700; margin-bottom: 4px;">Identifica la plaga</h2>
+        <p style="color: var(--text-light); font-size: 0.9em;">Sube una foto y la IA detectara la enfermedad</p>
+    </div>
+
+    <!-- UPLOAD AREA CON HOVER EFFECT (sin lineas discontinuas) -->
+    <div class="upload-area" onclick="document.getElementById('file-input').click()">
+        <div class="upload-icon">
+            <img src="https://cdn-icons-png.flaticon.com/512/2964/2964514.png" alt="">
+        </div>
+        <div class="upload-title">Toca para tomar foto</div>
+        <div class="upload-subtitle">o seleccionar de galeria</div>
+        <input type="file" id="file-input" accept="image/*" capture="environment" style="display: none;" onchange="handleImage(event)">
+    </div>
+
+    <div class="tip-box">
+        <img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png" alt="">
+        <div>Fotografia la hoja o fruto afectado de cerca y con buena luz natural</div>
+    </div>
+
+    <div id="preview-area" class="hidden">
+        <img id="preview-img" alt="Vista previa">
+        <button class="btn btn-primary mt-2" onclick="analyze()">Analizar Cultivo</button>
+    </div>
+
+    <div class="bottom-nav">
+        <button class="nav-item" onclick="showScreen('screen-home')">
+            <div class="icon-wrap"><img src="https://cdn-icons-png.flaticon.com/512/1946/1946436.png" alt=""></div>Inicio
+        </button>
+        <button class="nav-item active" onclick="showScreen('screen-diagnose')">
+            <div class="icon-wrap"><img src="https://cdn-icons-png.flaticon.com/512/2964/2964514.png" alt=""></div>Diagnosticar
+        </button>
+        <button class="nav-item" onclick="showScreen('screen-climate')">
+            <div class="icon-wrap"><img src="https://cdn-icons-png.flaticon.com/512/869/869869.png" alt=""></div>Clima
+        </button>
+        <button class="nav-item" onclick="showScreen('screen-guide')">
+            <div class="icon-wrap"><img src="https://cdn-icons-png.flaticon.com/512/3050/3050525.png" alt=""></div>Guia
+        </button>
+    </div>
+</div>
+
+<!-- PANTALLA 4: RESULTADO -->
+<div id="screen-result" class="screen">
+    <div class="header">
+        <span class="back" onclick="showScreen('screen-diagnose')">&#8592;</span>
+        <h1>Resultado del Analisis</h1>
+        <button class="lang-btn" onclick="openLangModal()">
+            <span id="current-lang-label-res">ES</span><span class="arrow">&#9662;</span>
+        </button>
+    </div>
+
+    <div id="loading-area" class="loading">
+        <div class="spinner"></div>
+        <p>Analizando imagen...</p>
+        <p class="sub">Esto tomara unos segundos</p>
+    </div>
+
+    <div id="result-content" class="hidden">
+        <div class="result-image-wrap">
+            <img id="result-img" alt="Cultivo analizado">
+            <div class="result-badge">
+                <img src="https://cdn-icons-png.flaticon.com/512/190/190411.png" alt="">Analisis completo
+            </div>
+        </div>
+
+        <div class="disease-header">
+            <div class="crop-tag">
+                <img src="https://images.unsplash.com/photo-1549007994-cb92caebd54b?w=50&h=50&fit=crop" alt="">CACAO
+            </div>
+            <div class="disease-name">MONILIA DETECTADA</div>
+            <div class="local-name">"Mal de machete"</div>
+            <div class="scientific-name">Moniliophthora roreri</div>
+        </div>
+
+        <div class="confidence-bar">
+            <div class="confidence-fill" style="width: 0%;" id="confidence-bar">85%</div>
+        </div>
+
+        <div class="alert-box high">
+            <div class="icon-wrap"><img src="https://cdn-icons-png.flaticon.com/512/564/564619.png" alt=""></div>
+            <div><strong>NIVEL: ALTO</strong>Requiere atencion inmediata para evitar perdida total de la cosecha</div>
+        </div>
+
+        <!-- BOTON DE VOZ -->
+        <div class="voice-section">
+            <p>Escuchar resultado<br><span>Nombre de la enfermedad y tratamiento</span></p>
+            <button class="voice-btn" id="voice-btn" onclick="speakResult()">
+                <img src="https://cdn-icons-png.flaticon.com/512/709/709682.png" alt="">
+            </button>
+        </div>
+
+        <div class="section-title">Tratamiento recomendado</div>
+        <div class="card">
+            <ul class="treatment-list">
+                <li><span class="bullet"></span>Aplicar caldo bordelas (sulfato de cobre + cal) cada 15 dias</li>
+                <li><span class="bullet"></span>Fungicida a base de oxicloruro de cobre</li>
+                <li><span class="bullet"></span>Eliminar mazorcas infectadas y enterrarlas a mas de 30 cm de profundidad</li>
+                <li><span class="bullet"></span>Podar ramas con sintomas y quemar los restos</li>
+            </ul>
+            <div class="where-buy">
+                <img src="https://cdn-icons-png.flaticon.com/512/684/684908.png" alt="">
+                <div>
+                    <div class="label">Donde comprar</div>
+                    <div class="value">ANAPO, cooperativas agricolas locales o tiendas de insumos en Malabo y Bata</div>
+                </div>
+            </div>
+            <div class="price-tag">
+                <img src="https://cdn-icons-png.flaticon.com/512/2474/2474450.png" alt="">5,000 - 15,000 XAF
+            </div>
+        </div>
+
+        <div class="section-title">Prevencion</div>
+        <div class="card">
+            <ul class="treatment-list">
+                <li><span class="bullet"></span>Podar y quemar ramas infectadas durante la temporada seca</li>
+                <li><span class="bullet"></span>Mantener buena ventilacion en la plantacion (poda de formacion)</li>
+                <li><span class="bullet"></span>Evitar heridas en mazorcas durante la cosecha</li>
+                <li><span class="bullet"></span>Monitorear semanalmente durante epocas de alta humedad</li>
+            </ul>
+        </div>
+
+        <div style="margin: 16px;">
+            <button class="btn btn-primary">
+                <img src="https://cdn-icons-png.flaticon.com/512/2985/2985150.png" style="width: 18px; height: 18px; vertical-align: middle; margin-right: 6px; filter: brightness(0) invert(1);">Guardar resultado
+            </button>
+            <div style="display: flex; gap: 12px; margin-top: 10px;">
+                <button class="btn btn-outline" style="flex: 1;">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2958/2958783.png" style="width: 16px; height: 16px; vertical-align: middle; margin-right: 4px;">Compartir
+                </button>
+                <button class="btn btn-outline" style="flex: 1;" onclick="showScreen('screen-diagnose')">
+                    <img src="https://cdn-icons-png.flaticon.com/512/126/126502.png" style="width: 16px; height: 16px; vertical-align: middle; margin-right: 4px;">Nuevo
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-nav">
+        <button class="nav-item" onclick="showScreen('screen-home')">
+            <div class="icon-wrap"><img src="https://cdn-icons-png.flaticon.com/512/1946/1946436.png" alt=""></div>Inicio
+        </button>
+        <button class="nav-item active" onclick="showScreen('screen-diagnose')">
+            <div class="icon-wrap"><img src="https://cdn-icons-png.flaticon.com/512/2964/2964514.png" alt=""></div>Diagnosticar
+        </button>
+        <button class="nav-item" onclick="showScreen('screen-climate')">
+            <div class="icon-wrap"><img src="https://cdn-icons-png.flaticon.com/512/869/869869.png" alt=""></div>Clima
+        </button>
+        <button class="nav-item" onclick="showScreen('screen-guide')">
+            <div class="icon-wrap"><img src="https://cdn-icons-png.flaticon.com/512/3050/3050525.png" alt=""></div>Guia
+        </button>
+    </div>
+</div>
+
+<!-- PANTALLA 5: CLIMA Y RENDIMIENTO (CON NUEVOS PARAMETROS) -->
+<div id="screen-climate" class="screen">
+    <div class="header">
+        <span class="back" onclick="showScreen('screen-home')">&#8592;</span>
+        <h1>Clima y Rendimiento</h1>
+        <button class="lang-btn" onclick="openLangModal()">
+            <span id="current-lang-label-cli">ES</span><span class="arrow">&#9662;</span>
+        </button>
+    </div>
+
+    <!-- WEATHER CARD -->
+    <div class="weather-card">
+        <div class="weather-header">
+            <div>
+                <div class="weather-location">
+                    <img src="https://cdn-icons-png.flaticon.com/512/684/684908.png" alt="">Malabo, Bioko Norte
+                </div>
+                <div class="weather-update">Actualizado: Hoy 14:30</div>
+            </div>
+        </div>
+        <div class="weather-main">
+            <img src="https://cdn-icons-png.flaticon.com/512/869/869869.png" alt="" style="filter: brightness(0) invert(1);">
+            <div>
+                <div class="weather-temp">28&#176;C</div>
+                <div class="weather-desc">Parcialmente nublado</div>
+            </div>
+        </div>
+        <div class="weather-stats">
+            <div class="stat-item">
+                <img src="https://cdn-icons-png.flaticon.com/512/414/414927.png" alt="">
+                <div class="value">85%</div>
+                <div class="label">Humedad</div>
+            </div>
+            <div class="stat-item">
+                <img src="https://cdn-icons-png.flaticon.com/512/4005/4005901.png" alt="">
+                <div class="value">120mm</div>
+                <div class="label">Lluvia/mes</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-title">Prediccion de cosecha</div>
+
+    <div class="card">
+        <!-- CULTIVO -->
+        <div class="input-group">
+            <label>Cultivo</label>
+            <div class="crop-grid" style="margin: 0; grid-template-columns: 1fr 1fr 1fr 1fr;">
+                <div class="crop-item selected" style="padding: 10px 4px;" onclick="selectCrop(this)">
+                    <img src="https://images.unsplash.com/photo-1549007994-cb92caebd54b?w=100&h=100&fit=crop" style="width: 40px; height: 40px;">
+                    <span style="font-size: 0.7em;">Cacao</span>
+                </div>
+                <div class="crop-item" style="padding: 10px 4px;" onclick="selectCrop(this)">
+                    <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefde?w=100&h=100&fit=crop" style="width: 40px; height: 40px;">
+                    <span style="font-size: 0.7em;">Cafe</span>
+                </div>
+                <div class="crop-item" style="padding: 10px 4px;" onclick="selectCrop(this)">
+                    <img src="https://images.unsplash.com/photo-1596557671695-214d6f3c3b4c?w=100&h=100&fit=crop" style="width: 40px; height: 40px;">
+                    <span style="font-size: 0.7em;">Yuca</span>
+                </div>
+                <div class="crop-item" style="padding: 10px 4px;" onclick="selectCrop(this)">
+                    <img src="https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=100&h=100&fit=crop" style="width: 40px; height: 40px;">
+                    <span style="font-size: 0.7em;">Platano</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- MES DE COSECHA -->
+        <div class="input-group">
+            <label>Mes de cosecha estimada</label>
+            <select id="harvest-month">
+                <option>Enero 2026</option>
+                <option>Febrero 2026</option>
+                <option>Marzo 2026</option>
+                <option>Abril 2026</option>
+                <option>Mayo 2026</option>
+                <option>Junio 2026</option>
+                <option>Julio 2026</option>
+                <option>Agosto 2026</option>
+                <option>Septiembre 2026</option>
+                <option>Octubre 2026</option>
+                <option>Noviembre 2026</option>
+                <option>Diciembre 2026</option>
+            </select>
+        </div>
+
+        <!-- TIPO DE SUELO -->
+        <div class="input-group">
+            <label>Tipo de suelo</label>
+            <select id="soil-type">
+                <option value="">Selecciona el tipo de suelo</option>
+                <option value="franco">Franco (limo + arena + arcilla)</option>
+                <option value="arcilloso">Arcilloso</option>
+                <option value="arenoso">Arenoso</option>
+                <option value="limoso">Limoso</option>
+                <option value="volcanico">Volcanico (Bioko)</option>
+                <option value="rojo">Rojo ferralitico (continental)</option>
+                <option value="humedo">Humedo organico</option>
+            </select>
+        </div>
+
+        <!-- EPOCA -->
+        <div class="input-group">
+            <label>Epoca del ano</label>
+            <select id="season">
+                <option value="">Selecciona la epoca</option>
+                <option value="seca">Temporada seca (noviembre - abril)</option>
+                <option value="lluviosa">Temporada lluviosa (mayo - octubre)</option>
+            </select>
+        </div>
+
+        <!-- TAMANO DE FINCA -->
+        <div class="input-row">
+            <div class="input-group">
+                <label>Tamano de la finca</label>
+                <input type="number" id="hectares" placeholder="Ej: 2.5" step="0.1" min="0.1">
+            </div>
+            <div class="input-group">
+                <label>Unidad</label>
+                <select id="unit">
+                    <option value="ha">Hectareas (ha)</option>
+                    <option value="m2">Metros cuadrados (m2)</option>
+                    <option value="fanegas">Fanegas</option>
+                </select>
+            </div>
+        </div>
+
+        <button class="btn btn-primary" onclick="calculateYield()" style="margin-top: 8px;">
+            <img src="https://cdn-icons-png.flaticon.com/512/1005/1005141.png" style="width: 18px; height: 18px; vertical-align: middle; margin-right: 6px; filter: brightness(0) invert(1);">Calcular rendimiento
+        </button>
+    </div>
+
+    <div id="yield-result" class="hidden">
+        <div class="card text-center">
+            <img src="https://images.unsplash.com/photo-1549007994-cb92caebd54b?w=200&h=200&fit=crop" alt="">
+            <div class="yield-value">850 kg/ha</div>
+            <div class="yield-label">Rendimiento estimado</div>
+            <div class="yield-bar-wrap">
+                <div class="yield-bar" id="yield-bar" style="width: 0%;"></div>
+            </div>
+            <div style="font-weight: 700; color: var(--primary); font-size: 0.9em;">Potencial: 70%</div>
+
+            <div class="yield-details">
+                <div><span>Cultivo</span><span id="res-crop">Cacao</span></div>
+                <div><span>Mes cosecha</span><span id="res-month">Octubre 2026</span></div>
+                <div><span>Temporada</span><span id="res-season">Lluviosa</span></div>
+                <div><span>Tipo de suelo</span><span id="res-soil">Franco</span></div>
+                <div><span>Tamano finca</span><span id="res-size">2.5 ha</span></div>
+                <div><span>Produccion total est.</span><span id="res-total">2,125 kg</span></div>
+            </div>
+        </div>
+
+        <div class="tip-box">
+            <img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png" alt="">
+            <div>La humedad alta favorece Monilia. Aplica preventivo de caldo bordelas este mes.</div>
+        </div>
+    </div>
+
+    <div class="bottom-nav">
+        <button class="nav-item" onclick="showScreen('screen-home')">
+            <div class="icon-wrap"><img src="https://cdn-icons-png.flaticon.com/512/1946/1946436.png" alt=""></div>Inicio
+        </button>
+        <button class="nav-item" onclick="showScreen('screen-diagnose')">
+            <div class="icon-wrap"><img src="https://cdn-icons-png.flaticon.com/512/2964/2964514.png" alt=""></div>Diagnosticar
+        </button>
+        <button class="nav-item active" onclick="showScreen('screen-climate')">
+            <div class="icon-wrap"><img src="https://cdn-icons-png.flaticon.com/512/869/869869.png" alt=""></div>Clima
+        </button>
+        <button class="nav-item" onclick="showScreen('screen-guide')">
+            <div class="icon-wrap"><img src="https://cdn-icons-png.flaticon.com/512/3050/3050525.png" alt=""></div>Guia
+        </button>
+    </div>
+</div>
+
+<!-- PANTALLA 6: GUIA DE CULTIVOS (CON BUSCADOR FUNCIONAL) -->
+<div id="screen-guide" class="screen">
+    <div class="header">
+        <span class="back" onclick="showScreen('screen-home')">&#8592;</span>
+        <h1>Guia de Cultivos</h1>
+        <button class="lang-btn" onclick="openLangModal()">
+            <span id="current-lang-label-guide">ES</span><span class="arrow">&#9662;</span>
+        </button>
+    </div>
+
+    <div style="padding: 16px;">
+        <div class="input-group" style="margin: 0;">
+            <input type="text" id="guide-search" placeholder="Buscar cultivo o plaga..." 
+                style="padding-left: 44px; background-image: url('https://cdn-icons-png.flaticon.com/512/149/149852.png'); background-repeat: no-repeat; background-position: 14px center; background-size: 18px;"
+                oninput="filterGuide()">
+        </div>
+    </div>
+
+    <div class="section-title" id="cultivos-title">Cultivos locales</div>
+    <div class="card" style="padding: 0; overflow: hidden;" id="cultivos-list">
+        <div class="guide-item" data-name="cacao theobroma" onclick="showCropDetail('cacao')">
+            <img src="https://images.unsplash.com/photo-1549007994-cb92caebd54b?w=200&h=200&fit=crop" alt="Cacao">
+            <div class="info">
+                <div class="title">CACAO</div>
+                <div class="desc">Principal exportacion de Guinea Ecuatorial</div>
+                <div class="link">Ver plagas &#8250;</div>
+            </div>
+            <span class="arrow">&#8250;</span>
+        </div>
+        <div class="guide-item" data-name="cafe coffea" onclick="showCropDetail('cafe')">
+            <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefde?w=200&h=200&fit=crop" alt="Cafe">
+            <div class="info">
+                <div class="title">CAFE</div>
+                <div class="desc">Cultivo tradicional en Bioko</div>
+                <div class="link">Ver plagas &#8250;</div>
+            </div>
+            <span class="arrow">&#8250;</span>
+        </div>
+        <div class="guide-item" data-name="yuca manihot mandioca" onclick="showCropDetail('yuca')">
+            <img src="https://images.unsplash.com/photo-1596557671695-214d6f3c3b4c?w=200&h=200&fit=crop" alt="Yuca">
+            <div class="info">
+                <div class="title">YUCA</div>
+                <div class="desc">Seguridad alimentaria local</div>
+                <div class="link">Ver plagas &#8250;</div>
+            </div>
+            <span class="arrow">&#8250;</span>
+        </div>
+        <div class="guide-item" data-name="platano banana musa" onclick="showCropDetail('platano')">
+            <img src="https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=200&h=200&fit=crop" alt="Platano">
+            <div class="info">
+                <div class="title">PLATANO</div>
+                <div class="desc">Consumo local principal</div>
+                <div class="link">Ver plagas &#8250;</div>
+            </div>
+            <span class="arrow">&#8250;</span>
+        </div>
+    </div>
+
+    <div class="section-title" id="plagas-title">Plagas comunes</div>
+    <div class="card" style="padding: 0; overflow: hidden;" id="plagas-list">
+        <div class="plaga-item" data-name="monilia mal machete cacao">
+            <div>
+                <div class="plaga-name">Monilia (Mal de machete)</div>
+                <div class="plaga-meta"><span class="crop">Cacao</span> &#183; <span class="risk high">Alto riesgo</span></div>
+            </div>
+            <span class="arrow">&#8250;</span>
+        </div>
+        <div class="plaga-item" data-name="roya cafe hemileia">
+            <div>
+                <div class="plaga-name">Roya del cafe</div>
+                <div class="plaga-meta"><span class="crop">Cafe</span> &#183; <span class="risk medium">Medio riesgo</span></div>
+            </div>
+            <span class="arrow">&#8250;</span>
+        </div>
+        <div class="plaga-item" data-name="sigatoka negra platano">
+            <div>
+                <div class="plaga-name">Sigatoka negra</div>
+                <div class="plaga-meta"><span class="crop">Platano</span> &#183; <span class="risk high">Alto riesgo</span></div>
+            </div>
+            <span class="arrow">&#8250;</span>
+        </div>
+        <div class="plaga-item" data-name="pudricion bacteriana yuca">
+            <div>
+                <div class="plaga-name">Pudricion bacteriana</div>
+                <div class="plaga-meta"><span class="crop">Yuca</span> &#183; <span class="risk medium">Medio riesgo</span></div>
+            </div>
+            <span class="arrow">&#8250;</span>
+        </div>
+        <div class="plaga-item" data-name="broca cafe hypothenemus">
+            <div>
+                <div class="plaga-name">Broca del cafe</div>
+                <div class="plaga-meta"><span class="crop">Cafe</span> &#183; <span class="risk high">Alto riesgo</span></div>
+            </div>
+            <span class="arrow">&#8250;</span>
+        </div>
+        <div class="plaga-item" data-name="moko platano ralstonia">
+            <div>
+                <div class="plaga-name">Moko del platano</div>
+                <div class="plaga-meta"><span class="crop">Platano</span> &#183; <span class="risk high">Alto riesgo</span></div>
+            </div>
+            <span class="arrow">&#8250;</span>
+        </div>
+    </div>
+
+    <div class="bottom-nav">
+        <button class="nav-item" onclick="showScreen('screen-home')">
+            <div class="icon-wrap"><img src="https://cdn-icons-png.flaticon.com/512/1946/1946436.png" alt=""></div>Inicio
+        </button>
+        <button class="nav-item" onclick="showScreen('screen-diagnose')">
+            <div class="icon-wrap"><img src="https://cdn-icons-png.flaticon.com/512/2964/2964514.png" alt=""></div>Diagnosticar
+        </button>
+        <button class="nav-item" onclick="showScreen('screen-climate')">
+            <div class="icon-wrap"><img src="https://cdn-icons-png.flaticon.com/512/869/869869.png" alt=""></div>Clima
+        </button>
+        <button class="nav-item active" onclick="showScreen('screen-guide')">
+            <div class="icon-wrap"><img src="https://cdn-icons-png.flaticon.com/512/3050/3050525.png" alt=""></div>Guia
+        </button>
+    </div>
+</div>
+
+<script>
+// ===== DATOS DE IDIOMAS =====
+const languages = {
+    es: { code: 'ES', name: 'Espanol', native: 'Espanol', available: true },
+    fr: { code: 'FR', name: 'Francais', native: 'Francais', available: true },
+    fang: { code: 'FG', name: 'Fang', native: 'Fang', available: true },
+    picchi: { code: 'PC', name: 'Picchi', native: 'Picchi', available: true },
+    bubi: { code: 'BB', name: 'Bubi', native: 'Bubi', available: false },
+    combe: { code: 'CB', name: 'Combe', native: 'Combe', available: false },
+    fadambo: { code: 'FD', name: 'Fadambo', native: 'Fadambo', available: false },
+    ndowe: { code: 'ND', name: 'Ndowe', native: 'Ndowe', available: false },
+    bisio: { code: 'BS', name: 'Bisio', native: 'Bisio', available: false }
+};
+
+let currentLang = 'es';
+
+// ===== NAVEGACION =====
+function showScreen(screenId) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(screenId).classList.add('active');
+    window.scrollTo(0, 0);
+}
+
+// ===== IDIOMA - WELCOME =====
+function selectWelcomeLang(btn) {
+    const lang = btn.dataset.lang;
+    if (!languages[lang].available) {
+        showLangToast();
+        return;
+    }
+    document.querySelectorAll('.lang-btn-welcome').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentLang = lang;
+}
+
+function enterApp() {
+    updateLangLabels();
+    showScreen('screen-home');
+}
+
+// ===== TOAST IDIOMA NO DISPONIBLE =====
+function showLangToast() {
+    document.getElementById('lang-toast').classList.add('active');
+}
+
+function closeLangToast(e) {
+    if (!e || e.target === document.getElementById('lang-toast')) {
+        document.getElementById('lang-toast').classList.remove('active');
+    }
+}
+
+// ===== IDIOMA - MODAL =====
+function openLangModal() {
+    const list = document.getElementById('lang-list');
+    list.innerHTML = '';
+    Object.entries(languages).forEach(([key, lang]) => {
+        const div = document.createElement('div');
+        div.className = 'lang-option';
+        if (lang.available) {
+            div.onclick = () => { changeLang(key); };
+        } else {
+            div.onclick = () => { showLangToast(); };
+            div.style.opacity = '0.6';
+        }
+        div.innerHTML = `
+            <div>
+                <div class="lang-name">${lang.name}</div>
+                <div class="lang-native">${lang.native}</div>
+            </div>
+            ${lang.available 
+                ? `<span class="check" style="${key === currentLang ? '' : 'visibility:hidden'}">&#10003;</span>`
+                : '<span class="badge-soon">PRONTO</span>'
+            }
+        `;
+        list.appendChild(div);
+    });
+    document.getElementById('lang-modal').classList.add('active');
+}
+
+function closeLangModal(e) {
+    if (!e || e.target === document.getElementById('lang-modal')) {
+        document.getElementById('lang-modal').classList.remove('active');
+    }
+}
+
+function changeLang(lang) {
+    currentLang = lang;
+    updateLangLabels();
+    closeLangModal();
+    document.querySelectorAll('.lang-btn-welcome').forEach(b => {
+        b.classList.toggle('active', b.dataset.lang === lang);
+    });
+}
+
+function updateLangLabels() {
+    const label = languages[currentLang].code;
+    ['current-lang-label', 'current-lang-label-diag', 'current-lang-label-res', 'current-lang-label-cli', 'current-lang-label-guide'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = label;
+    });
+}
+
+// ===== SELECCION DE CULTIVO =====
+function selectCrop(element) {
+    const parent = element.parentElement;
+    parent.querySelectorAll('.crop-item').forEach(c => c.classList.remove('selected'));
+    element.classList.add('selected');
+}
+
+// ===== MANEJO DE IMAGEN =====
+function handleImage(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('preview-img').src = e.target.result;
+            document.getElementById('preview-area').classList.remove('hidden');
+        };
+        reader.readAsDataURL(file);
+    }
+}
+
+// ===== ANALISIS =====
+function analyze() {
+    showScreen('screen-result');
+    document.getElementById('loading-area').classList.remove('hidden');
+    document.getElementById('result-content').classList.add('hidden');
+
+    setTimeout(() => {
+        document.getElementById('loading-area').classList.add('hidden');
+        document.getElementById('result-content').classList.remove('hidden');
+        const previewSrc = document.getElementById('preview-img').src;
+        document.getElementById('result-img').src = previewSrc;
+        setTimeout(() => {
+            document.getElementById('confidence-bar').style.width = '85%';
+        }, 100);
+    }, 2500);
+}
+
+function showResultDemo() {
+    showScreen('screen-result');
+    document.getElementById('loading-area').classList.add('hidden');
+    document.getElementById('result-content').classList.remove('hidden');
+    document.getElementById('result-img').src = 'https://images.unsplash.com/photo-1549007994-cb92caebd54b?w=600&h=400&fit=crop';
+    setTimeout(() => {
+        document.getElementById('confidence-bar').style.width = '85%';
+    }, 100);
+}
+
+// ===== VOZ / TEXT-TO-SPEECH =====
+let isSpeaking = false;
+
+function speakResult() {
+    const btn = document.getElementById('voice-btn');
+
+    if (isSpeaking) {
+        window.speechSynthesis.cancel();
+        isSpeaking = false;
+        btn.classList.remove('speaking');
+        return;
+    }
+
+    const text = `Enfermedad detectada: Monilia, tambien conocida como Mal de machete. 
+        Nombre cientifico: Moniliophthora roreri. 
+        Nivel de alerta: Alto. Requiere atencion inmediata. 
+        Tratamiento recomendado: Aplicar caldo bordelas cada 15 dias. 
+        Usar fungicida a base de oxicloruro de cobre. 
+        Eliminar mazorcas infectadas y enterrarlas a mas de 30 centimetros de profundidad. 
+        Podar ramas con sintomas y quemar los restos. 
+        Los productos estan disponibles en ANAPO o cooperativas agricolas locales. 
+        Costo estimado: entre 5 mil y 15 mil francos CFA. 
+        Prevencion: Podar y quemar ramas infectadas durante la temporada seca. 
+        Mantener buena ventilacion en la plantacion. 
+        Evitar heridas en mazorcas durante la cosecha. 
+        Monitorear semanalmente durante epocas de alta humedad.`;
+
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = currentLang === 'fr' ? 'fr-FR' : 'es-ES';
+    utterance.rate = 0.9;
+    utterance.pitch = 1;
+
+    utterance.onstart = () => {
+        isSpeaking = true;
+        btn.classList.add('speaking');
+    };
+
+    utterance.onend = () => {
+        isSpeaking = false;
+        btn.classList.remove('speaking');
+    };
+
+    utterance.onerror = () => {
+        isSpeaking = false;
+        btn.classList.remove('speaking');
+        alert('No se pudo reproducir la voz. Verifica la configuracion de audio de tu dispositivo.');
+    };
+
+    window.speechSynthesis.speak(utterance);
+}
+
+// ===== CLIMA / RENDIMIENTO =====
+function calculateYield() {
+    const soil = document.getElementById('soil-type').value;
+    const season = document.getElementById('season').value;
+    const hectares = document.getElementById('hectares').value;
+    const month = document.getElementById('harvest-month').value;
+    const unit = document.getElementById('unit').value;
+
+    if (!soil) { alert('Por favor selecciona el tipo de suelo'); return; }
+    if (!season) { alert('Por favor selecciona la epoca del ano'); return; }
+    if (!hectares || hectares <= 0) { alert('Por favor ingresa el tamano de la finca'); return; }
+
+    const soilNames = {
+        franco: 'Franco', arcilloso: 'Arcilloso', arenoso: 'Arenoso',
+        limoso: 'Limoso', volcanico: 'Volcanico', rojo: 'Rojo ferralitico', humedo: 'Humedo organico'
+    };
+    const seasonNames = { seca: 'Seca', lluviosa: 'Lluviosa' };
+
+    document.getElementById('res-crop').textContent = 'Cacao';
+    document.getElementById('res-month').textContent = month;
+    document.getElementById('res-season').textContent = seasonNames[season];
+    document.getElementById('res-soil').textContent = soilNames[soil] || soil;
+    document.getElementById('res-size').textContent = hectares + ' ' + (unit === 'ha' ? 'ha' : unit);
+
+    const yieldPerHa = 850;
+    const total = (yieldPerHa * parseFloat(hectares)).toLocaleString('es-ES');
+    document.getElementById('res-total').textContent = total + ' kg';
+
+    document.getElementById('yield-result').classList.remove('hidden');
+    setTimeout(() => {
+        document.getElementById('yield-bar').style.width = '70%';
+    }, 100);
+}
+
+// ===== GUIA - BUSCADOR =====
+function filterGuide() {
+    const query = document.getElementById('guide-search').value.toLowerCase().trim();
+    const cultivosItems = document.querySelectorAll('#cultivos-list .guide-item');
+    const plagasItems = document.querySelectorAll('#plagas-list .plaga-item');
+
+    let cultivosVisible = 0;
+    let plagasVisible = 0;
+
+    cultivosItems.forEach(item => {
+        const name = item.dataset.name || '';
+        const title = item.querySelector('.title')?.textContent.toLowerCase() || '';
+        const desc = item.querySelector('.desc')?.textContent.toLowerCase() || '';
+        const match = !query || name.includes(query) || title.includes(query) || desc.includes(query);
+        item.style.display = match ? 'flex' : 'none';
+        if (match) cultivosVisible++;
+    });
+
+    plagasItems.forEach(item => {
+        const name = item.dataset.name || '';
+        const plagaName = item.querySelector('.plaga-name')?.textContent.toLowerCase() || '';
+        const crop = item.querySelector('.crop')?.textContent.toLowerCase() || '';
+        const match = !query || name.includes(query) || plagaName.includes(query) || crop.includes(query);
+        item.style.display = match ? 'flex' : 'none';
+        if (match) plagasVisible++;
+    });
+
+    // Mostrar/ocultar titulos de seccion
+    document.getElementById('cultivos-title').style.display = cultivosVisible > 0 ? 'block' : 'none';
+    document.getElementById('plagas-title').style.display = plagasVisible > 0 ? 'block' : 'none';
+}
+
+function showCropDetail(crop) {
+    alert('Detalle de ' + crop + ' - En desarrollo. Aqui se mostrara informacion detallada del cultivo, sus plagas comunes, ciclo de vida y mejores practicas de cultivo.');
+}
+
+// ===== INICIALIZACION =====
+document.addEventListener('gesturestart', function(e) { e.preventDefault(); });
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closeLangModal();
+        closeLangToast();
+    }
+});
+</script>
+</body>
+</html>

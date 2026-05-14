@@ -1,0 +1,530 @@
+{
+  "cultivos": {
+    "cacao": {
+      "nombre": "Cacao",
+      "enfermedades": [
+        {
+          "id": "cacao_01",
+          "nombre": "Mazorca Negra",
+          "nombre_cientifico": "Phytophthora palmivora",
+          "tipo": "enfermedad",
+          "presente": true,
+          "sintomas": [
+            "Manchas marrones o negras en las mazorcas que crecen rápido",
+            "Moho blanco aterciopelado sobre la lesión en climas húmedos",
+            "Mazorca se pudre completamente cuando llueve mucho",
+            "Manchas oscuras y húmedas en el tronco llamadas cancros"
+          ],
+          "tratamiento": [
+            "Revisar las plantas cada semana, especialmente cuando llueve",
+            "Cortar la mazorca negra con un machete limpio",
+            "Enterrar la mazorca enferma a 30 cm bajo tierra",
+            "Mezclar cal o ceniza con agua y rociar las mazorcas sanas",
+            "Podar ramas bajas para que el aire circule",
+            "Mantener sombra entre 30% y 40%",
+            "Limpiar canales de drenaje para que el agua no se estanque"
+          ],
+          "urgencia": "alta"
+        },
+        {
+          "id": "cacao_02",
+          "nombre": "Escoba de Bruja",
+          "nombre_cientifico": "Moniliophthora perniciosa",
+          "tipo": "enfermedad",
+          "presente": true,
+          "sintomas": [
+            "Brotes raros y ramificados que parecen una escoba de bruja",
+            "Mazorcas jóvenes se ponen duras con forma de zanahoria y mueren",
+            "Frutos grandes con manchas negras duras y brillantes",
+            "Hojas infectadas caen dejando ramas desnudas"
+          ],
+          "tratamiento": [
+            "Cortar y retirar inmediatamente los brotes ramificados antes de que suelten esporas",
+            "Quemar los brotes cortados lejos del cultivo",
+            "Usar hongo Trichoderma como agente biológico si se puede conseguir",
+            "Regular la sombra para que circule el aire",
+            "Dejar la tierra en barbecho de 5 a 10 años en áreas nuevas"
+          ],
+          "urgencia": "muy_alta"
+        },
+        {
+          "id": "cacao_03",
+          "nombre": "Mal Rosado",
+          "nombre_cientifico": "Corticium salmonicolor",
+          "tipo": "enfermedad",
+          "presente": false,
+          "sintomas": [
+            "Mancha blanca como algodón en las ramas",
+            "La mancha se vuelve rosada o anaranjada",
+            "Hojas de esa rama se marchitan y secan",
+            "La rama se muere desde la punta hacia adentro"
+          ],
+          "tratamiento": [
+            "Cortar la rama con mancha blanca o rosada 20 cm por debajo de la mancha",
+            "Quemar la rama cortada o llevarla lejos del cultivo",
+            "Lavar el machete con agua y jabón o lejía antes de cortar otras plantas",
+            "Untar cal sobre la herida del árbol para sellarla"
+          ],
+          "urgencia": "media"
+        },
+        {
+          "id": "cacao_04",
+          "nombre": "Antracnosis del Cacao",
+          "nombre_cientifico": "Colletotrichum gloeosporioides",
+          "tipo": "enfermedad",
+          "presente": true,
+          "sintomas": [
+            "Lesiones secas con halo amarillo que avanzan desde los bordes de la hoja",
+            "Hojas infectadas caen dejando ramas desnudas",
+            "Lesiones hundidas de color café en frutos que se vuelven rosadas",
+            "Afecta el desarrollo de las hojas y la producción"
+          ],
+          "tratamiento": [
+            "Aplicar extractos de Neem o ajo sobre hojas y brotes jóvenes",
+            "Eliminar manualmente las mazorcas enfermas sin tocar plantas sanas",
+            "Lavar bien manos y herramientas después de tocar plantas enfermas",
+            "Seleccionar materiales de siembra resistentes y evitar encharcamiento",
+            "Manejar bien la hojarasca para mantener equilibrio natural en el suelo"
+          ],
+          "urgencia": "media"
+        },
+        {
+          "id": "cacao_05",
+          "nombre": "Mal de Machete",
+          "nombre_cientifico": "Ceratocystis fimbriata",
+          "tipo": "enfermedad",
+          "presente": true,
+          "sintomas": [
+            "Marchitez repentina y amarillamiento de las hojas",
+            "Hojas quedan pegadas al árbol aunque haya muerto",
+            "Aserrín expulsado por insectos perforadores en el tronco",
+            "El hongo entra por heridas en la corteza hechas con el machete"
+          ],
+          "tratamiento": [
+            "Cortar y quemar completamente los árboles infectados",
+            "Aplicar ceniza o pastas protectoras en los cortes de poda",
+            "Desinfectar el machete con fuego o lejía antes de pasar de un árbol a otro",
+            "Evitar cortes innecesarios en el tronco durante la cosecha"
+          ],
+          "urgencia": "alta"
+        }
+      ]
+    },
+    "yuca": {
+      "nombre": "Yuca",
+      "enfermedades": [
+        {
+          "id": "yuca_01",
+          "nombre": "Mosaico de la Yuca",
+          "nombre_cientifico": "African Cassava Mosaic Virus (ACMV)",
+          "tipo": "virus",
+          "presente": true,
+          "sintomas": [
+            "Hojas con manchas amarillas y verdes mezcladas como mosaico",
+            "Hojas arrugadas y deformadas",
+            "Planta crece pequeña y débil",
+            "Raíces más delgadas y pequeñas"
+          ],
+          "tratamiento": [
+            "Usar esquejes de plantas que se vean completamente sanas al sembrar",
+            "Arrancar y quemar las plantas muy enfermas",
+            "Rotar con otros cultivos como maíz, fríjol o plátano",
+            "Controlar la mosca blanca con trampas amarillas con aceite o jabón",
+            "Sembrar variedades resistentes al mosaico si están disponibles",
+            "Usar barbecho tradicional de 5 a 10 años"
+          ],
+          "urgencia": "alta"
+        },
+        {
+          "id": "yuca_02",
+          "nombre": "Raya Parda de la Yuca",
+          "nombre_cientifico": "Cassava Brown Streak Virus (CBSD)",
+          "tipo": "virus",
+          "presente": true,
+          "sintomas": [
+            "Hojas se ponen amarillas y se caen",
+            "Rayas o manchas de color marrón en el tallo",
+            "Raíz con manchas marrones por dentro y se pudre",
+            "La yuca pierde el sabor y no sirve para comer"
+          ],
+          "tratamiento": [
+            "Usar siempre esquejes de plantas sanas sin rayas en el tallo",
+            "Arrancar toda la planta si tiene rayas marrones en el tallo",
+            "No guardar yuca cosechada por mucho tiempo si hubo la enfermedad",
+            "Sembrar en terrenos diferentes cada año",
+            "Inspeccionar plantas cada semana buscando tallos con rayas"
+          ],
+          "urgencia": "alta"
+        },
+        {
+          "id": "yuca_03",
+          "nombre": "Añublo Bacteriano de la Yuca",
+          "nombre_cientifico": "Xanthomonas axonopodis pv. manihotis",
+          "tipo": "bacteria",
+          "presente": true,
+          "sintomas": [
+            "Manchas de agua en las hojas como si estuvieran mojadas",
+            "Las manchas se vuelven marrón oscuro o negras",
+            "Hojas se secan y se caen",
+            "Sale líquido amarillento del tallo al apretarlo",
+            "La planta puede morir completamente"
+          ],
+          "tratamiento": [
+            "Cortar y quemar ramas o tallos con manchas o líquido amarillento rápidamente",
+            "Lavar el machete con agua y jabón o lejía después de cortar planta enferma",
+            "No tocar las plantas cuando estén mojadas por lluvia o rocío",
+            "Usar esquejes de plantas completamente sanas",
+            "Sembrar en terrenos con buen drenaje",
+            "Desinfectar el machete con fuego antes de pasar de una planta a otra"
+          ],
+          "urgencia": "alta"
+        },
+        {
+          "id": "yuca_04",
+          "nombre": "Antracnosis de la Yuca",
+          "nombre_cientifico": "Colletotrichum gloeosporioides",
+          "tipo": "enfermedad",
+          "presente": true,
+          "sintomas": [
+            "Manchas marrones en las hojas con centro gris",
+            "Bordes de manchas de color morado o marrón oscuro",
+            "Las manchas se unen y la hoja se seca y cae",
+            "Pequeñas llagas hundidas de color marrón en el tallo"
+          ],
+          "tratamiento": [
+            "Recoger y quemar las hojas secas caídas debajo de las plantas",
+            "No sembrar las plantas muy juntas, dejar espacio para el aire",
+            "Aplicar mezcla de cal con agua cada 15 días al ver los primeros síntomas",
+            "Usar esquejes de plantas sanas sin manchas en el tallo",
+            "Aplicar ceniza de leña sobre las hojas después de la llovizna"
+          ],
+          "urgencia": "media"
+        },
+        {
+          "id": "yuca_05",
+          "nombre": "Podredumbre de la Raíz",
+          "nombre_cientifico": "Fusarium spp. y Pythium spp.",
+          "tipo": "enfermedad",
+          "presente": true,
+          "sintomas": [
+            "Marchitamiento repentino de la parte de arriba",
+            "Hojas se vuelven amarillas y caen antes de tiempo",
+            "Raíces blandas con manchas oscuras al arrancar la planta",
+            "Emiten olor desagradable a podrido"
+          ],
+          "tratamiento": [
+            "Mejorar el drenaje del terreno para evitar encharcamiento",
+            "Rotar cultivos con cereales como el maíz",
+            "No plantar en zonas bajas propensas a inundaciones",
+            "Usar barbecho tradicional de 5 a 10 años"
+          ],
+          "urgencia": "media"
+        },
+        {
+          "id": "yuca_P1",
+          "nombre": "Cochinilla de la Yuca",
+          "nombre_cientifico": "Phenacoccus manihoti",
+          "tipo": "plaga",
+          "presente": true,
+          "sintomas": [
+            "Acortamiento de los nudos del tallo con hojas nuevas amontonadas",
+            "Parece un repollo o cogollo deformado",
+            "Insectos pequeños de color blanco algodonoso bajo las hojas"
+          ],
+          "tratamiento": [
+            "Aplicar agua jabonosa fuerte sobre los brotes infectados",
+            "Usar extractos de Neem sobre los brotes infectados",
+            "Revisar las plantas cada semana para detectar la plaga a tiempo"
+          ],
+          "urgencia": "media"
+        }
+      ]
+    },
+    "platano": {
+      "nombre": "Plátano",
+      "enfermedades": [
+        {
+          "id": "platano_01",
+          "nombre": "Sigatoka Negra",
+          "nombre_cientifico": "Mycosphaerella fijiensis",
+          "tipo": "enfermedad",
+          "presente": true,
+          "sintomas": [
+            "Rayas pequeñas de color marrón oscuro o negro en las hojas",
+            "Las rayas se alargan y se vuelven manchas grandes con centro gris y borde negro",
+            "Hojas se secan desde los bordes hacia adentro",
+            "Racimos más pequeños y frutas que maduran antes de tiempo",
+            "Puede reducir el peso del racimo hasta un 50%"
+          ],
+          "tratamiento": [
+            "Revisar las plantas cada semana especialmente después de las lluvias",
+            "Cortar las hojas más viejas y enfermas de abajo",
+            "No sembrar los plátanos muy juntos, dejar 3 metros entre plantas",
+            "Espolvorear ceniza de leña sobre las hojas después de una llovizna",
+            "Aplicar fungicida a base de cobre cada 15 días en época de lluvias",
+            "Mantener el campo limpio de restos de hojas y malezas"
+          ],
+          "urgencia": "alta"
+        },
+        {
+          "id": "platano_02",
+          "nombre": "Mal de Panamá",
+          "nombre_cientifico": "Fusarium oxysporum f. sp. cubense",
+          "tipo": "enfermedad",
+          "presente": true,
+          "sintomas": [
+            "Hojas más viejas de abajo se ponen amarillas primero",
+            "El amarillamiento sube hacia las hojas de arriba",
+            "Hojas se doblan hacia abajo y se marchitan",
+            "Rayas de color marrón o rojizo dentro del tallo al partirlo",
+            "Toda la planta se muere"
+          ],
+          "tratamiento": [
+            "Marcar y vigilar las plantas con hojas amarillas y dobladas",
+            "Arrancar la planta marchita y quemarla lejos de la plantación",
+            "No volver a sembrar plátano en el mismo hoyo donde se enfermó",
+            "Lavar herramientas con agua y jabón o lejía después de trabajar cerca",
+            "Usar semilla de plantas sanas de lugares sin la enfermedad"
+          ],
+          "urgencia": "alta"
+        },
+        {
+          "id": "platano_03",
+          "nombre": "Marchitez Bacteriana (Moko / BXW)",
+          "nombre_cientifico": "Xanthomonas vasicola pv. musacearum / Ralstonia solanacearum",
+          "tipo": "bacteria",
+          "presente": true,
+          "sintomas": [
+            "Hojas se ponen amarillas y se marchitan de repente",
+            "Racimos maduran antes de tiempo",
+            "Líquido amarillento que sale del tallo al partirlo",
+            "Frutos se pudren por dentro de color naranja o marrón",
+            "Toda la planta se marchita y muere en pocas semanas"
+          ],
+          "tratamiento": [
+            "Cortar la planta enferma inmediatamente a ras de suelo",
+            "Picar la planta en pedazos pequeños y dejar secar al sol (BXW) o quemar lejos (Moko)",
+            "Lavar el machete con lejía antes de tocar otra planta sana",
+            "No usar semilla de plantas que parezcan enfermas",
+            "No cortar las flores con manos sucias, usar un palo limpio",
+            "No sembrar plátano en ese terreno por al menos 6 meses a 1 año"
+          ],
+          "urgencia": "muy_alta"
+        },
+        {
+          "id": "platano_P1",
+          "nombre": "Gorgojo del Plátano",
+          "nombre_cientifico": "Cosmopolites sordidus",
+          "tipo": "plaga",
+          "presente": true,
+          "sintomas": [
+            "Agujeros pequeños en el tallo de la planta",
+            "Galerías y túneles por dentro del tallo",
+            "Hojas se ponen amarillas y se marchitan",
+            "Planta crece débil y pequeña",
+            "Gorgojos adultos de color negro o marrón rojizo de 1.3 a 2 cm"
+          ],
+          "tratamiento": [
+            "Revisar plantas buscando agujeros en la base del tallo",
+            "Cortar y quemar las plantas muy atacadas",
+            "Usar trampas con pedazo de tallo fresco de 30 cm boca abajo en el suelo",
+            "Mantener el campo limpio de restos de plantas viejas",
+            "No herir los tallos cuando se trabaja"
+          ],
+          "urgencia": "media"
+        },
+        {
+          "id": "platano_P2",
+          "nombre": "Pulgón del Plátano",
+          "nombre_cientifico": "Pentalonia nigronervosa",
+          "tipo": "plaga",
+          "presente": true,
+          "sintomas": [
+            "Insectos pequeños de 1 mm de color negro o marrón en hojas nuevas",
+            "Hojas se deforman y se ponen amarillas",
+            "Sustancia pegajosa en la planta que atrae hormigas",
+            "Hollín negro sobre las hojas",
+            "Frutos pequeños y deformes"
+          ],
+          "tratamiento": [
+            "Revisar plantas cada semana en hojas nuevas del centro",
+            "Rociar agua con jabón líquido sobre los pulgones",
+            "Controlar las hormigas que protegen a los pulgones",
+            "Usar semilla sana sin pulgones",
+            "Cortar y quemar las hojas más infestadas si la plaga es muy fuerte"
+          ],
+          "urgencia": "media"
+        },
+        {
+          "id": "platano_P3",
+          "nombre": "Nematodos del Plátano",
+          "nombre_cientifico": "Meloidogyne spp., Pratylenchus spp.",
+          "tipo": "plaga",
+          "presente": true,
+          "sintomas": [
+            "Raíces con nudos o agallas o lesiones oscuras",
+            "Planta se debilita, amarillea y pierde anclaje",
+            "Planta cae fácilmente ante vientos fuertes",
+            "Produce racimos pequeños"
+          ],
+          "tratamiento": [
+            "Sumergir los hijos o cormos en agua a 50-55°C durante 45 minutos antes de sembrar",
+            "Rotar cultivos y practicar barbecho largo de 5 a 10 años",
+            "Usar material de siembra sano y evitar mover tierra de una parcela a otra"
+          ],
+          "urgencia": "media"
+        }
+      ]
+    },
+    "cafe": {
+      "nombre": "Café",
+      "enfermedades": [
+        {
+          "id": "cafe_01",
+          "nombre": "Enfermedad de la Cereza del Café (CBD)",
+          "nombre_cientifico": "Colletotrichum kahawae",
+          "tipo": "enfermedad",
+          "presente": true,
+          "sintomas": [
+            "Manchas de color marrón oscuro o negro hundidas en las cerezas verdes",
+            "Manchas crecen y cubren toda la cereza que se pone negra",
+            "Grano dañado y pulpa marrón, dura y quebradiza por dentro",
+            "Masas de esporas de color rosado en las manchas en tiempo húmedo",
+            "Cerezas enfermas se caen antes de tiempo",
+            "Puede causar pérdidas de hasta el 80% de la cosecha"
+          ],
+          "tratamiento": [
+            "Recoger todas las cerezas enfermas y enterrarlas o quemarlas",
+            "Cortar y enterrar ramas con manchas negras o secas",
+            "Plantar a 1.5 metros entre planta y 2.5 metros entre hileras",
+            "Usar abono orgánico de 10 kg de estiércol o composta por planta al año",
+            "Aplicar fungicida de cobre cada 15 días durante época de lluvias",
+            "Sembrar variedades resistentes como Batian si se pueden conseguir"
+          ],
+          "urgencia": "alta"
+        },
+        {
+          "id": "cafe_02",
+          "nombre": "Roya del Café",
+          "nombre_cientifico": "Hemileia vastatrix",
+          "tipo": "enfermedad",
+          "presente": true,
+          "sintomas": [
+            "Manchas pequeñas de color amarillo pálido en la parte de arriba de la hoja",
+            "Manchas redondas de color amarillo-naranja como polvo en la parte de abajo",
+            "Las manchas se unen y la hoja se pone marrón y se seca",
+            "Hojas se caen antes de tiempo dejando ramas sin hojas",
+            "Ramas se secan desde la punta si la enfermedad es muy fuerte"
+          ],
+          "tratamiento": [
+            "Revisar el revés de las hojas especialmente en época de lluvias",
+            "Mantener el cafetal con buen sombrío",
+            "Recoger hojas caídas del suelo y enterrarlas",
+            "Fertilizar bien con abono orgánico y fertilizante completo",
+            "Aplicar fungicida de cobre antes de que empiecen las lluvias fuertes",
+            "Podar ramas bajas y densas para que circule el aire",
+            "Aplicar soluciones de ceniza de madera diluida en agua sobre el follaje"
+          ],
+          "urgencia": "alta"
+        },
+        {
+          "id": "cafe_03",
+          "nombre": "Marchitez del Café (CWD)",
+          "nombre_cientifico": "Fusarium xylarioides",
+          "tipo": "enfermedad",
+          "presente": true,
+          "sintomas": [
+            "Hojas se ponen amarillas y se marchitan de repente",
+            "Tallo principal y ramas se secan rápidamente",
+            "Rayas de color azul-negro o marrón dentro de la madera al partir una rama",
+            "Toda la planta se muere",
+            "Árbol parece morir de sed aunque haya lluvias abundantes"
+          ],
+          "tratamiento": [
+            "Vigilar constantemente, si hay marchitez sin razón revisar el tallo",
+            "Arrancar y quemar inmediatamente la planta sospechosa",
+            "No volver a sembrar café en el mismo hoyo donde se enfermó",
+            "Usar semilla de plantas sanas de lugares sin la enfermedad",
+            "Sembrar variedades resistentes si están disponibles",
+            "Lavar herramientas con agua y jabón o lejía después de trabajar",
+            "Pasar el machete por fuego después de podar un árbol sospechoso"
+          ],
+          "urgencia": "muy_alta"
+        },
+        {
+          "id": "cafe_04",
+          "nombre": "Mancha de Hierro",
+          "nombre_cientifico": "Cercospora coffeicola",
+          "tipo": "enfermedad",
+          "presente": true,
+          "sintomas": [
+            "Manchas circulares de color café con centro gris claro o blanco como ojo de pájaro",
+            "En frutos manchas negras hundidas que pegan la pulpa al grano",
+            "Dificulta el descascarillado del café"
+          ],
+          "tratamiento": [
+            "Aplicar compost o estiércol animal fermentado en la base del árbol",
+            "Ajustar la sombra para que el café no reciba sol directo excesivo",
+            "Fertilizar bien para que las plantas no estén débiles"
+          ],
+          "urgencia": "baja"
+        },
+        {
+          "id": "cafe_P1",
+          "nombre": "Broca del Café",
+          "nombre_cientifico": "Hypothenemus hampei",
+          "tipo": "plaga",
+          "presente": true,
+          "sintomas": [
+            "Pequeños agujeros del tamaño de la punta de un alfiler en el ombligo del fruto",
+            "Caída prematura de los frutos",
+            "Destrucción interna del grano afectando la calidad del café"
+          ],
+          "tratamiento": [
+            "Recolectar absolutamente todos los frutos caídos del suelo y frutos secos del árbol",
+            "Usar trampas caseras con botellas de plástico con mezcla de alcohol y café molido",
+            "Podar y renovar cafetales viejos especialmente los que superan los 50 años"
+          ],
+          "urgencia": "alta"
+        }
+      ]
+    }
+  },
+  "consejos_generales": [
+    {
+      "id": "consejo_01",
+      "titulo": "La semilla sana es lo primero",
+      "descripcion": "Siempre use semilla, esquejes, hijos o cormos de plantas que se vean sanas y fuertes. Nunca use material de plantas enfermas. La semilla enferma enferma toda la cosecha."
+    },
+    {
+      "id": "consejo_02",
+      "titulo": "Lave y desinfecte sus herramientas",
+      "descripcion": "Lave el machete con lejía (1 tapita por litro de agua) o pase por fuego después de cortar una planta enferma. Hágalo antes de tocar una planta sana."
+    },
+    {
+      "id": "consejo_03",
+      "titulo": "Rote los cultivos",
+      "descripcion": "No siembre el mismo cultivo en el mismo terreno año tras año. Use el barbecho tradicional de 5 a 10 años para dejar descansar la tierra."
+    },
+    {
+      "id": "consejo_04",
+      "titulo": "Revise cada semana",
+      "descripcion": "Dedique un día a la semana a caminar por su cultivo y mirar cada planta. Busque hojas amarillas, manchas, orugas, agujeros o plantas marchitas."
+    },
+    {
+      "id": "consejo_05",
+      "titulo": "Mejore el drenaje",
+      "descripcion": "El agua estancada es la mejor amiga de los hongos y bacterias. Haga canales para que el agua de lluvia se vaya rápido. No plante en zonas bajas."
+    },
+    {
+      "id": "consejo_06",
+      "titulo": "Use ceniza y cal",
+      "descripcion": "La ceniza de leña y la cal ayudan a controlar hongos y son gratis o muy baratas. Rocíe sobre las hojas después de la llovizna."
+    },
+    {
+      "id": "consejo_07",
+      "titulo": "No deje restos de plantas enfermas",
+      "descripcion": "Queme o entierre profundo las plantas enfermas. No las deje tiradas en el suelo del cultivo. Los hongos y bacterias crecen en los restos."
+    }
+  ]
+}

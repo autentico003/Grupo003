@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#1B5E20">
+    <title>Agrovision - Agricultura Inteligente</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+
+<!-- TOAST: IDIOMA NO DISPONIBLE -->
+<div id="lang-toast" class="toast-overlay" onclick="closeLangToast(event)">
+    <div class="toast-box" onclick="event.stopPropagation()">
+        <div class="toast-icon">
+            <img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png" alt="">
+        </div>
+        <h3>Idioma en desarrollo</h3>
+        <p>Este idioma estara disponible proximamente. Por ahora, usa Espanol, Frances, Fang o Picchi.</p>
+        <button class="btn btn-primary" onclick="closeLangToast()">Entendido</button>
+    </div>
+</div>
+
+<!-- MODAL DE IDIOMA -->
+<div id="lang-modal" class="modal-overlay" onclick="closeLangModal(event)">
+    <div class="modal-sheet" onclick="event.stopPropagation()">
+        <div class="modal-header">
+            <h2>Seleccionar idioma</h2>
+            <button class="modal-close" onclick="closeLangModal()">&times;</button>
+        </div>
+        <div id="lang-list"></div>
+    </div>
+</div>
+
+<!-- PANTALLA 1: BIENVENIDA -->
+<div id="screen-welcome" class="screen active">
+    <div class="welcome-screen">
+        <div class="welcome-logo">
+            <img src="https://cdn-icons-png.flaticon.com/512/628/628283.png" alt="Agro">
+        </div>
+        <h1>Agro</h1>
+        <p>Tu asistente agricola inteligente para Guinea Ecuatorial</p>
+        <div class="welcome-card">
+            <div style="text-align: center; margin-bottom: 16px;">
+                <div style="font-weight: 700; font-size: 1.1em; margin-bottom: 4px;">Elige tu idioma</div>
+                <div style="font-size: 0.85em; color: var(--text-light);">Puedes cambiarlo despues</div>
+            </div>
+            <div class="lang-grid">
+                <button class="lang-btn-welcome active" data-lang="es" onclick="selectWelcomeLang(this)">Espanol</button>
+                <button class="lang-btn-welcome" data-lang="fr" onclick="selectWelcomeLang(this)">Francais</button>
+                <button class="lang-btn-welcome" data-lang="fang" onclick="selectWelcomeLang(this)">Fang</button>
+                <button class="lang-btn-welcome" data-lang="picchi" onclick="selectWelcomeLang(this)">Picchi</button>
+                <button class="lang-btn-welcome disabled" data-lang="bubi" onclick="showLangToast()">Bubi</button>
+                <button class="lang-btn-welcome disabled" data-lang="combe" onclick="showLangToast()">Combe</button>
+                <button class="lang-btn-welcome disabled" data-lang="fadambo" onclick="showLangToast()">Fadambo</button>
+                <button class="lang-btn-welcome disabled" data-lang="ndowe" onclick="showLangToast()">Ndowe</button>
+                <button class="lang-btn-welcome disabled" data-lang="bisio" onclick="showLangToast()">Bisio</button>
+            </div>
+            <button class="btn btn-primary" onclick="enterApp()" style="margin-top: 8px;">Comenzar</button>
+        </div>
+    </div>
+</div>
+
+<!-- PANTALLA 2: HOME -->
+<div id="screen-home" class="screen">
+    <div class="header">
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <img src="https://cdn-icons-png.flaticon.com/512/628/628283.png" alt="" style="width: 28px; height: 28px; filter: brightness(0) invert(1);">
+            <h1>Agro</h1>
+        </div>
+        <button class="lang-btn" onclick="openLangModal()">
+            <span id="current-lang-label">ES</span>
+            <span class="arrow">&#9662;</span>
+        </button>
+    </div>
+    <div style="padding: 20px 16px 12px;">
+        <h2 style="font-size: 1.25em; font-weight: 700; margin-bottom: 2px;">Bienvenido a Agro</h2>
+        <p style="color: var(--text-light); font-size: 0.95em;">Que necesitas hoy?</p>
+    </div>
+
+    <!-- FEATURE CARDS CON IMAGENES DE FONDO -->
+    <div class="home-feature-card" onclick="showScreen('screen-diagnose')">
+        <img class="bg-image" src="camaraHome.jpg" alt="Diagnostico">
+        <div class="overlay"></div>
+        <div class="content">
+            <h3>Diagnostico de Plagas</h3>
+            <p>Toma una foto de tu cultivo y descubre que le pasa</p>
+            <span class="arrow">&#8250;</span>
+        </div>
+    </div>
+
+    <div class="home-feature-card" onclick="showScreen('screen-climate')">
+        <img class="bg-image" src="clima.jpg" alt="Clima">
+        <div class="overlay"></div>
+        <div class="content">
+            <h3>Clima y Rendimiento</h3>
+            <p>Prediccion de cosecha segun el clima y tu finca</p>
+            <span class="arrow">&#8250;</span>
+        </div>
+    </div>
+
+    <div class="home-feature-card" onclick="showScreen('screen-guide')">
+        <img class="bg-image" src="diagnostico.jpg" alt="Guia">
+        <div class="overlay"></div>
+        <div class="content">
+            <h3>Guia de Cultivos</h3>
+            <p>Aprende sobre cacao, cafe, yuca y platano</p>
+            <span class="arrow">&#8250;</span>
+        </div>
+    </div>
+
+    <!-- HISTORIAL AGRUPADO POR DIA -->
+    <div class="section-title">Diagnosticos recientes</div>
+
+    <div class="history-day">
+        <div class="history-date">Hoy, 14 de mayo 2026</div>
+        <div class="history-item" onclick="showResultDemo()">
+            <div class="history-info">
+                <img src="https://images.unsplash.com/photo-1549007994-cb92caebd54b?w=100&h=100&fit=crop" alt="">
+                <div>
+                    <div class="name">Cacao - Monilia</div>
+                    <div class="time">14:30</div>
+                </div>
+            </div>
+            <span class="history-status treated">Tratado</span>
+        </div>
+        <div class="history-item" onclick="showResultDemo()">
+            <div class="history-info">
+                <img src="https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=100&h=100&fit=crop" alt="">
+                <div>
+                    <div class="name">Platano - Sigatoka</div>
+                    <div class="time">09:15</div>
+                </div>
+            </div>
+            <span class="history-status progress">En tratamiento</span>
+        </div>
+    </div>
+
+    <div class="history-day">
+        <div class="history-date">Ayer, 13 de mayo 2026</div>
+        <div class="history-item" onclick="showResultDemo()">
+            <div class="history-info">
+                <img src="cafe/buencafe/buenocOIP%20(4.1).jpg" alt="">
+                <div>
+                    <div class="name">Cafe - Roya</div>
+                    <div class="time">16:45</div>
+                </div>
+            </div>
+            <span class="history-status resolved">Resuelto</span>
+        </div>
+    </div>
+
+    <div class="bottom-nav">
+        <button class="nav-item active" onclick="showScreen('screen-home')">
+            <div class="icon-wrap"><img src="https://cdn-icons-png.flaticon.com/512/1946/1946436.png" alt=""></div>Inicio
+        </button>
+        <button class="nav-item" onclick="showScreen('screen-diagnose')">
+            <div class="icon-wrap"><img class="nav-icon-photo" src="camara_insertar.jpg" alt=""></div>Diagnosticar
+        </button>
+        <button class="nav-item" onclick="showScreen('screen-climate')">
+            <div class="icon-wrap"><img src="https://cdn-icons-png.flaticon.com/512/869/869869.png" alt=""></div>Clima
+        </button>
+        <button class="nav-item" onclick="showScreen('screen-guide')">
+            <div class="icon-wrap"><img src="https://cdn-icons-png.flaticon.com/512/3050/3050525.png" alt=""></div>Guia
+        </button>
+    </div>
+</div>
+
+<!-- PANTALLA 3: DIAGNOSTICO (SIN SELECCION DE CULTIVOS) -->
+<div id="screen-diagnose" class="screen">
+    <div class="header">
+        <span class="back" onclick="showScreen('screen-home')">&#8592;</span>
+        <h1>Diagnostico de Plagas</h1>
+        <button class="lang-btn" onclick="openLangModal()">
+            <span id="current-lang-label-diag">ES</span><span class="arrow">&#9662;</span>
+        </button>
+    </div>
+
+    <div style="padding: 20px 16px 8px;">
+        <h2 style="font-size: 1.15em; font-weight: 700; margin-bottom: 4px;">Identifica la plaga</h2>
+        <p style="color: var(--text-light); font-size: 0.9em;">Sube una foto y la IA detectara la enfermedad</p>
+    </div>
+
+    <!-- UPLOAD AREA CON HOVER EFFECT (sin lineas discontinuas) -->
+    <div class="upload-area" onclick="document.getElementById('file-input').click()">
+        <div class="upload-icon">
+            <img src="camara_insertar.jpg" alt="">
+        </div>
+        <div class="upload-title">Toca para tomar foto</div>
+        <div class="upload-subtitle">o seleccionar de galeria</div>
+        <input type="file" id="file-input" accept="image/*" capture="environment" style="display: none;" onchange="handleImage(event)">
+    </div>
+
+    <div class="tip-box">
+        <img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png" alt="">
+        <div>Fotografia la hoja o fruto afectado de cerca y con buena luz natural</div>
+    </div>
+
+    <div id="preview-area" class="hidden">
+        <img id="preview-img" alt="Vista previa">
+        <button class="btn btn-primary mt-2" onclick="analyze()">Analizar Cultivo</button>
+    </div>
+
+    <div class="bottom-nav">
+        <button class="nav-item" onclick="showScreen('screen-home')">
+            <div class="icon-wrap"><img src="https://cdn-icons-png.flaticon.com/512/1946/1946436.png" alt=""></div>Inicio
+        </button>
+        <button class="nav-item active" onclick="showScreen('screen-diagnose')">
+            <div class="icon-wrap"><img class="nav-icon-photo" src="camara_insertar.jpg" alt=""></div>Diagnosticar
+        </button>
+        <button class="nav-item" onclick="showScreen('screen-climate')">
+            <div class="icon-wrap"><img src="https://cdn-icons-png.flaticon.com/512/869/869869.png" alt=""></div>Clima
+        </button>
+        <button class="nav-item" onclick="showScreen('screen-guide')">
+            <div class="icon-wrap"><img src="https://cdn-icons-png.flaticon.com/512/3050/3050525.png" alt=""></div>Guia
+        </button>
+    </div>
+</div>
+
+<!-- PANTALLA 4: RESULTADO -->
+<div id="screen-result" class="screen">
+    <div class="header">
+        <span class="back" onclick="showScreen('screen-diagnose')">&#8592;</span>
+        <h1>Resultado del Analisis</h1>
+        <button class="lang-btn" onclick="openLangModal()">
+            <span id="current-lang-label-res">ES</span><span class="arrow">&#9662;</span>
+        </button>
+    </div>
+
+    <div id="loading-area" class="loading">
+        <div class="spinner"></div>
+        <p>Analizando imagen...</p>
+        <p class="sub">Esto tomara unos segundos</p>
+    </div>
+
+    <div id="result-content" class="hidden">
+        <div class="result-image-wrap">
+            <img id="result-img" alt="Cultivo analizado">
+            <div class="result-badge">
+                <img src="https://cdn-icons-png.flaticon.com/512/190/190411.png" alt="">Analisis completo
+            </div>
+        </div>
+
+        <div class="disease-header">
+            <div class="crop-tag">
+                <img id="result-crop-thumb" src="" alt="">
+                <span id="result-crop-label">—</span>
+            </div>
+            <div class="disease-name" id="result-disease-title">—</div>
+            <div class="local-name" id="result-disease-type"></div>
+            <div class="scientific-name" id="result-scientific">—</div>
+        </div>
+
+        <div class="confidence-bar">
+            <div class="confidence-fill" style="width: 0%;" id="confidence-bar">0%</div>
+        </div>
+
+        <div class="alert-box high" id="result-alert-box">
+            <div class="icon-wrap"><img src="https://cdn-icons-png.flaticon.com/512/564/564619.png" alt=""></div>
+            <div id="result-alert-text"><strong>NIVEL: —</strong><span id="result-alert-desc"></span></div>
+        </div>
+
+        <!-- BOTON DE VOZ -->
+        <div class="voice-section">
+            <p>Escuchar resultado<br><span>Nombre de la enfermedad y tratamiento</span></p>
+            <button class="voice-btn" id="voice-btn" onclick="speakResult()">
+                <img src="https://cdn-icons-png.flaticon.com/512/709/709682.png" alt="">
+            </button>
+        </div>
+
+        <div class="section-title">Signos y sintomas</div>
+        <div class="card">
+            <ul class="treatment-list" id="result-sintomas-list"></ul>
+        </div>
+
+        <div class="section-title">Tratamiento recomendado</div>
+        <div class="card">
+            <ul class="treatment-list" id="result-tratamiento-list"></ul>
+            <div class="where-buy">
+                <img src="https://cdn-icons-png.flaticon.com/512/684/684908.png" alt="">
+                <div>
+                    <div class="label">Donde comprar</div>
+                    <div class="value">ANAPO, cooperativas agricolas locales o tiendas de insumos en Malabo y Bata</div>
+                </div>
+            </div>
+            <div class="price-tag">
+                <img src="https://cdn-icons-png.flaticon.com/512/2474/2474450.png" alt="">5,000 - 15,000 XAF
+            </div>
+        </div>
+
+        <div class="section-title">Consejos generales</div>
+        <div class="card">
+            <ul class="treatment-list" id="result-consejos-list"></ul>
+        </div>
+
+        <div style="margin: 16px;">
+            <button class="btn btn-primary">
+                <img src="https://cdn-icons-png.flaticon.com/512/2985/2985150.png" style="width: 18px; height: 18px; vertical-align: middle; margin-right: 6px; filter: brightness(0) invert(1);">Guardar resultado
+            </button>
+            <div style="display: flex; gap: 12px; margin-top: 10px;">
+                <button class="btn btn-outline" style="flex: 1;">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2958/2958783.png" style="width: 16px; height: 16px; vertical-align: middle; margin-right: 4px;">Compartir
+                </button>
+                <button class="btn btn-outline" style="flex: 1;" onclick="showScreen('screen-diagnose')">
+                    <img src="camara_insertar.jpg" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 4px; object-fit: contain;">Nuevo
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-nav">
+        <button class="nav-item" onclick="showScreen('screen-home')">
+            <div class="icon-wrap"><img src="https://cdn-icons-png.flaticon.com/512/1946/1946436.png" alt=""></div>Inicio
+        </button>
+        <button class="nav-item active" onclick="showScreen('screen-diagnose')">
+            <div class="icon-wrap"><img class="nav-icon-photo" src="camara_insertar.jpg" alt=""></div>Diagnosticar
+        </button>
+        <button class="nav-item" onclick="showScreen('screen-climate')">
+            <div class="icon-wrap"><img src="https://cdn-icons-png.flaticon.com/512/869/869869.png" alt=""></div>Clima
+        </button>
+        <button class="nav-item" onclick="showScreen('screen-guide')">
+            <div class="icon-wrap"><img src="https://cdn-icons-png.flaticon.com/512/3050/3050525.png" alt=""></div>Guia
+        </button>
+    </div>
+</div>
+
+<!-- PANTALLA 5: CLIMA Y RENDIMIENTO (CON NUEVOS PARAMETROS) -->
+<div id="screen-climate" class="screen">
+    <div class="header">
+        <span class="back" onclick="showScreen('screen-home')">&#8592;</span>
+        <h1>Clima y Rendimiento</h1>
+        <button class="lang-btn" onclick="openLangModal()">
+            <span id="current-lang-label-cli">ES</span><span class="arrow">&#9662;</span>
+        </button>
+    </div>
+
+    <!-- WEATHER CARD -->
+    <div class="weather-card">
+        <div class="weather-header">
+            <div>
+                <div class="weather-location">
+                    <img src="https://cdn-icons-png.flaticon.com/512/684/684908.png" alt="">Malabo, Bioko Norte
+                </div>
+                <div class="weather-update">Actualizado: Hoy 14:30</div>
+            </div>
+        </div>
+        <div class="weather-main">
+            <img src="https://cdn-icons-png.flaticon.com/512/869/869869.png" alt="" style="filter: brightness(0) invert(1);">
+            <div>
+                <div class="weather-temp">28&#176;C</div>
+                <div class="weather-desc">Parcialmente nublado</div>
+            </div>
+        </div>
+        <div class="weather-stats">
+            <div class="stat-item">
+                <img src="https://cdn-icons-png.flaticon.com/512/414/414927.png" alt="">
+                <div class="value">85%</div>
+                <div class="label">Humedad</div>
+            </div>
+            <div class="stat-item">
+                <img src="https://cdn-icons-png.flaticon.com/512/4005/4005901.png" alt="">
+                <div class="value">120mm</div>
+                <div class="label">Lluvia/mes</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-title">Prediccion de cosecha</div>
+
+    <div class="card">
+        <!-- CULTIVO -->
+        <div class="input-group">
+            <label>Cultivo</label>
+            <div class="crop-grid" style="margin: 0; grid-template-columns: 1fr 1fr 1fr 1fr;">
+                <div class="crop-item selected" data-crop="cacao" style="padding: 10px 4px;" onclick="selectCrop(this)">
+                    <img src="cacao/buencacao/buenoOIP%20(4.1).jpg" alt="" style="width: 40px; height: 40px;">
+                    <span style="font-size: 0.7em;">Cacao</span>
+                </div>
+                <div class="crop-item" data-crop="cafe" style="padding: 10px 4px;" onclick="selectCrop(this)">
+                    <img src="cafe/buencafe/buenocOIP%20(4.1).jpg" alt="" style="width: 40px; height: 40px;">
+                    <span style="font-size: 0.7em;">Cafe</span>
+                </div>
+                <div class="crop-item" data-crop="yuca" style="padding: 10px 4px;" onclick="selectCrop(this)">
+                    <img src="yuca/buenayuca/buenoyOIP%20(4.1).jpg" alt="" style="width: 40px; height: 40px;">
+                    <span style="font-size: 0.7em;">Yuca</span>
+                </div>
+                <div class="crop-item" data-crop="platano" style="padding: 10px 4px;" onclick="selectCrop(this)">
+                    <img src="platano/buenplatano/buenopOIP%20(4.1).jpg" alt="" style="width: 40px; height: 40px;">
+                    <span style="font-size: 0.7em;">Platano</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- MES DE COSECHA -->
+        <div class="input-group">
+            <label>Mes de cosecha estimada</label>
+            <select id="harvest-month">
+                <option>Enero 2026</option>
+                <option>Febrero 2026</option>
+                <option>Marzo 2026</option>
+                <option>Abril 2026</option>
+                <option>Mayo 2026</option>
+                <option>Junio 2026</option>
+                <option>Julio 2026</option>
+                <option>Agosto 2026</option>
+                <option>Septiembre 2026</option>
+                <option>Octubre 2026</option>
+                <option>Noviembre 2026</option>
+                <option>Diciembre 2026</option>
+            </select>
+        </div>
+
+        <!-- TIPO DE SUELO -->
+        <div class="input-group">
+            <label>Tipo de suelo</label>
+            <select id="soil-type">
+                <option value="">Selecciona el tipo de suelo</option>
+                <option value="franco">Franco (limo + arena + arcilla)</option>
+                <option value="arcilloso">Arcilloso</option>
+                <option value="arenoso">Arenoso</option>
+                <option value="limoso">Limoso</option>
+                <option value="volcanico">Volcanico (Bioko)</option>
+                <option value="rojo">Rojo ferralitico (continental)</option>
+                <option value="humedo">Humedo organico</option>
+            </select>
+        </div>
+
+        <!-- EPOCA -->
+        <div class="input-group">
+            <label>Epoca del ano</label>
+            <select id="season">
+                <option value="">Selecciona la epoca</option>
+                <option value="seca">Temporada seca (noviembre - abril)</option>
+                <option value="lluviosa">Temporada lluviosa (mayo - octubre)</option>
+            </select>
+        </div>
+
+        <!-- TAMANO DE FINCA -->
+        <div class="input-row">
+            <div class="input-group">
+                <label>Tamano de la finca</label>
+                <input type="number" id="hectares" placeholder="Ej: 2.5" step="0.1" min="0.1">
+            </div>
+            <div class="input-group">
+                <label>Unidad</label>
+                <select id="unit">
+                    <option value="ha">Hectareas (ha)</option>
+                    <option value="m2">Metros cuadrados (m2)</option>
+                    <option value="fanegas">Fanegas</option>
+                </select>
+            </div>
+        </div>
+
+        <button class="btn btn-primary" onclick="calculateYield()" style="margin-top: 8px;">
+            <img src="https://cdn-icons-png.flaticon.com/512/1005/1005141.png" style="width: 18px; height: 18px; vertical-align: middle; margin-right: 6px; filter: brightness(0) invert(1);">Calcular rendimiento
+        </button>
+    </div>
+
+    <div id="yield-result" class="hidden">
+        <div class="card text-center">
+            <img id="yield-crop-thumb" src="cacao/buencacao/buenoOIP%20(4.1).jpg" alt="">
+            <div class="yield-value">850 kg/ha</div>
+            <div class="yield-label">Rendimiento estimado</div>
+            <div class="yield-bar-wrap">
+                <div class="yield-bar" id="yield-bar" style="width: 0%;"></div>
+            </div>
+            <div id="yield-potential" style="font-weight: 700; color: var(--primary); font-size: 0.9em;">Potencial: 70%</div>
+
+            <div class="yield-details">
+                <div><span>Cultivo</span><span id="res-crop">Cacao</span></div>
+                <div><span>Mes cosecha</span><span id="res-month">Octubre 2026</span></div>
+                <div><span>Temporada</span><span id="res-season">Lluviosa</span></div>
+                <div><span>Tipo de suelo</span><span id="res-soil">Franco</span></div>
+                <div><span>Tamano finca</span><span id="res-size">2.5 ha</span></div>
+                <div><span>Produccion total est.</span><span id="res-total">2,125 kg</span></div>
+            </div>
+        </div>
+
+        <div class="tip-box">
+            <img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png" alt="">
+            <div>La humedad alta favorece Monilia. Aplica preventivo de caldo bordelas este mes.</div>
+        </div>
+    </div>
+
+    <div class="bottom-nav">
+        <button class="nav-item" onclick="showScreen('screen-home')">
+            <div class="icon-wrap"><img src="https://cdn-icons-png.flaticon.com/512/1946/1946436.png" alt=""></div>Inicio
+        </button>
+        <button class="nav-item" onclick="showScreen('screen-diagnose')">
+            <div class="icon-wrap"><img class="nav-icon-photo" src="camara_insertar.jpg" alt=""></div>Diagnosticar
+        </button>
+        <button class="nav-item active" onclick="showScreen('screen-climate')">
+            <div class="icon-wrap"><img src="https://cdn-icons-png.flaticon.com/512/869/869869.png" alt=""></div>Clima
+        </button>
+        <button class="nav-item" onclick="showScreen('screen-guide')">
+            <div class="icon-wrap"><img src="https://cdn-icons-png.flaticon.com/512/3050/3050525.png" alt=""></div>Guia
+        </button>
+    </div>
+</div>
+
+<!-- PANTALLA 6: GUIA DE CULTIVOS (CON BUSCADOR FUNCIONAL) -->
+<div id="screen-guide" class="screen">
+    <div class="header">
+        <span class="back" onclick="showScreen('screen-home')">&#8592;</span>
+        <h1>Guia de Cultivos</h1>
+        <button class="lang-btn" onclick="openLangModal()">
+            <span id="current-lang-label-guide">ES</span><span class="arrow">&#9662;</span>
+        </button>
+    </div>
+
+    <div style="padding: 16px;">
+        <div class="input-group" style="margin: 0;">
+            <input type="text" id="guide-search" placeholder="Buscar cultivo o plaga..." 
+                style="padding-left: 44px; background-image: url('https://cdn-icons-png.flaticon.com/512/149/149852.png'); background-repeat: no-repeat; background-position: 14px center; background-size: 18px;"
+                oninput="filterGuide()">
+        </div>
+    </div>
+
+    <div class="section-title" id="cultivos-title">Cultivos locales</div>
+    <div class="card" style="padding: 0; overflow: hidden;" id="cultivos-list"></div>
+
+    <div class="section-title" id="plagas-title">Enfermedades y plagas</div>
+    <div class="card" style="padding: 0; overflow: hidden;" id="plagas-list"></div>
+
+    <div class="bottom-nav">
+        <button class="nav-item" onclick="showScreen('screen-home')">
+            <div class="icon-wrap"><img src="https://cdn-icons-png.flaticon.com/512/1946/1946436.png" alt=""></div>Inicio
+        </button>
+        <button class="nav-item" onclick="showScreen('screen-diagnose')">
+            <div class="icon-wrap"><img class="nav-icon-photo" src="camara_insertar.jpg" alt=""></div>Diagnosticar
+        </button>
+        <button class="nav-item" onclick="showScreen('screen-climate')">
+            <div class="icon-wrap"><img src="https://cdn-icons-png.flaticon.com/512/869/869869.png" alt=""></div>Clima
+        </button>
+        <button class="nav-item active" onclick="showScreen('screen-guide')">
+            <div class="icon-wrap"><img src="https://cdn-icons-png.flaticon.com/512/3050/3050525.png" alt=""></div>Guia
+        </button>
+    </div>
+</div>
+
+<div id="guide-detail-overlay" class="detail-overlay" onclick="closeGuideDetail(event)">
+    <div class="detail-sheet" onclick="event.stopPropagation()">
+        <div id="guide-detail-inner"></div>
+    </div>
+</div>
+
+<script defer src="js/app.js"></script>
+</body>
+</html>
